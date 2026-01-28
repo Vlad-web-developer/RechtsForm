@@ -31,38 +31,69 @@ const INITIAL_DATA = {
     self: {
       nichtselbstaendig: { has: 'no', brutto: '' },
       selbstaendig: { has: 'no', brutto: '' },
-      vermietung: { has: 'no', brutto: '' },       // Новое
-      kapital: { has: 'no', brutto: '' },          // Новое
+      vermietung: { has: 'no', brutto: '' },
+      kapital: { has: 'no', brutto: '' },
       kindergeld: { has: 'no', brutto: '' },
       wohngeld: { has: 'no', brutto: '' },
       unterhalt: { has: 'no', brutto: '' },
       rente: { has: 'no', brutto: '' },
       arbeitslosengeld: { has: 'no', brutto: '' },
       buergergeld: { has: 'no', brutto: '' },
-      krankengeld: { has: 'no', brutto: '' },      // Новое
-      elterngeld: { has: 'no', brutto: '' },       // Новое
-      sonstige: { has: 'no', brutto: '', details: '' }
+      krankengeld: { has: 'no', brutto: '' },
+      elterngeld: { has: 'no', brutto: '' },
+      sonstige: { 
+        has: 'no', 
+        items: [
+          { details: '', brutto: '' } 
+        ] 
+      }
     },
     // Полная структура для Партнера (13 категорий)
     partner: {
       nichtselbstaendig: { has: 'no', brutto: '' },
       selbstaendig: { has: 'no', brutto: '' },
-      vermietung: { has: 'no', brutto: '' },       // Новое
-      kapital: { has: 'no', brutto: '' },          // Новое
+      vermietung: { has: 'no', brutto: '' },
+      kapital: { has: 'no', brutto: '' },
       kindergeld: { has: 'no', brutto: '' },
       wohngeld: { has: 'no', brutto: '' },
       unterhalt: { has: 'no', brutto: '' },
       rente: { has: 'no', brutto: '' },
       arbeitslosengeld: { has: 'no', brutto: '' },
       buergergeld: { has: 'no', brutto: '' },
-      krankengeld: { has: 'no', brutto: '' },      // Новое
-      elterngeld: { has: 'no', brutto: '' },       // Новое
-      sonstige: { has: 'no', brutto: '', details: '' }
+      krankengeld: { has: 'no', brutto: '' },
+      elterngeld: { has: 'no', brutto: '' },
+      sonstige: { 
+        has: 'no', 
+        items: [
+          { details: '', brutto: '' } 
+        ] 
+      }
     }
   },
-  // Заглушки для будущих секций, чтобы не было ошибок
-  sectionF: { hasBankAccounts: null, accounts: [], hasOtherAssets: null, assetsDescription: '' },
-  sectionG: { totalRent: '' },
+  sectionF: {
+    self: {
+      steuern: { description: '', amount: '' },
+      sozialvers: { description: '', amount: '' },
+      sonstigevers: { description: '', amount: '' },
+      fahrt: { description: '', amount: '' }, 
+      werbungskosten: { description: '', amount: '' }
+    },
+    partner: {
+      steuern: { description: '', amount: '' },
+      sozialvers: { description: '', amount: '' },
+      sonstigevers: { description: '', amount: '' },
+      fahrt: { description: '', amount: '' },
+      werbungskosten: { description: '', amount: '' }
+    }
+  },
+  sectionG: {
+    bankAccounts: { has: null, description: '', value: '' },
+    realEstate: { has: null, description: '', value: '' },
+    vehicles: { has: null, description: '', value: '' },
+    cash: { has: null, description: '', value: '' },
+    lifeInsurance: { has: null, description: '', value: '' },
+    otherAssets: { has: null, description: '', value: '' },
+  },
   sectionH: { hasOtherLiabilities: null }
 };
 
@@ -77,20 +108,19 @@ export const useFormData = () => {
     if (savedData) {
       try {
         const parsed = JSON.parse(savedData);
-        
-        // ГЛУБОКОЕ СЛИЯНИЕ (Deep Merge) для Section E
-        // Это предотвращает ошибку "undefined reading has", если в localStorage старая структура
+
         const mergedSectionE = {
           ...INITIAL_DATA.sectionE,
           ...parsed.sectionE,
-          self: {
-            ...INITIAL_DATA.sectionE.self,
-            ...(parsed.sectionE?.self || {})
-          },
-          partner: {
-            ...INITIAL_DATA.sectionE.partner,
-            ...(parsed.sectionE?.partner || {})
-          }
+          self: { ...INITIAL_DATA.sectionE.self, ...(parsed.sectionE?.self || {}) },
+          partner: { ...INITIAL_DATA.sectionE.partner, ...(parsed.sectionE?.partner || {}) }
+        };
+
+        const mergedSectionF = {
+           ...INITIAL_DATA.sectionF,
+           ...parsed.sectionF,
+           self: { ...INITIAL_DATA.sectionF.self, ...(parsed.sectionF?.self || {}) },
+           partner: { ...INITIAL_DATA.sectionF.partner, ...(parsed.sectionF?.partner || {}) }
         };
 
         return {
@@ -100,7 +130,9 @@ export const useFormData = () => {
           sectionB: { ...INITIAL_DATA.sectionB, ...parsed.sectionB },
           sectionC: { ...INITIAL_DATA.sectionC, ...parsed.sectionC },
           sectionD: { ...INITIAL_DATA.sectionD, ...parsed.sectionD },
-          sectionE: mergedSectionE, // Используем безопасную версию
+          sectionE: mergedSectionE,
+          sectionF: mergedSectionF,
+          sectionG: { ...INITIAL_DATA.sectionG, ...parsed.sectionG },
         };
       } catch (e) {
         console.error("Ошибка парсинга данных, сброс формы", e);
@@ -125,7 +157,6 @@ export const useFormData = () => {
     }));
   };
 
-  // Полезная функция для полной очистки (на случай багов)
   const resetForm = () => {
     setFormData(INITIAL_DATA);
     setStep(0);

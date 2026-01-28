@@ -86,8 +86,8 @@
   background: var(--bg-primary) !important;
   border: 1px solid var(--line-color) !important;
   border-radius: 12px !important;
-  padding: 14px 16px !important;
-  font-size: 1.1rem !important;
+  padding: 12px 12px !important;
+  font-size: 0.9rem !important;
   font-weight: 600 !important;
   color: var(--accent-color) !important;
   text-align: left !important;

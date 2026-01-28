@@ -4,7 +4,9 @@ import {
   fillInsuranceData, 
   fillMaintenanceData, 
   fillDependentsData, 
-  fillIncomeData 
+  fillIncomeData,
+  fillDeductionsData,
+  fillAssetsData 
 } from './pdf/pdfFillers';
 
 export const generateAndDownloadPDF = async (formData) => {
@@ -21,6 +23,9 @@ export const generateAndDownloadPDF = async (formData) => {
     fillMaintenanceData(form, formData.sectionC);
     fillDependentsData(form, formData.sectionD);
     fillIncomeData(form, fields, formData.sectionE);
+    fillDeductionsData(form, formData.sectionF, formData.sectionE.hasPartner);
+    
+    fillAssetsData(form, formData.sectionG);
 
     const pdfBytes = await pdfDoc.save();
     const blob = new Blob([pdfBytes], { type: 'application/pdf' });

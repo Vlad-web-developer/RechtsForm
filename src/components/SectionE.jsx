@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import "../css/SectionE.css"
 
@@ -248,6 +248,7 @@ const SectionE = ({ data, onChange, onBack, onNext, setStep }) => {
             </div>
           </motion.div>
         )}
+
         {subStep === 1 && <motion.div key="step1" initial={{ x: 20, opacity: 0 }} animate={{ x: 0, opacity: 1 }}><h3>Ihre Bruttoeinnahmen </h3>{renderIncomeList('self')}</motion.div>}
         {subStep === 2 && (
           <motion.div key="step2" initial={{ x: 20, opacity: 0 }} animate={{ x: 0, opacity: 1 }}>

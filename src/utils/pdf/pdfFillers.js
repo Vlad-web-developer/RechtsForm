@@ -1,5 +1,5 @@
 import { setFieldDirect, setCheckbox, setFieldBySearch } from './pdfHelpers';
-import { incomeMap } from './pdfMappings';
+import { incomeMap, deductionMap, assetsMap } from './pdfMappings';
 
 export const fillPersonalData = (form, sectionA) => {
   setFieldDirect(form, 'Name, Vorname, ggf. Geburtsname', sectionA.fullName);
@@ -107,7 +107,6 @@ export const fillIncomeData = (form, fields, sectionE) => {
     setCheckbox(form, 'E25', true); 
   }
 
-  // Партнер
   if (sectionE.hasPartner === 'yes') {
     const otherPartner = sectionE.partner.sonstige;
     if (otherPartner && otherPartner.has === 'yes') {
@@ -129,4 +128,57 @@ export const fillIncomeData = (form, fields, sectionE) => {
       setCheckbox(form, 'E51', true); 
     }
   }
+};
+
+export const fillDeductionsData = (form, sectionF, hasPartner) => {
+  if (!sectionF) return;
+
+  Object.keys(deductionMap).forEach(key => {
+    const mapping = deductionMap[key];
+    
+    const selfItem = sectionF.self[key];
+    if (selfItem) {
+      if (selfItem.description && selfItem.description.trim() !== '') {
+        setFieldDirect(form, mapping.self.desc, selfItem.description);
+      }
+      if (selfItem.amount && selfItem.amount.trim() !== '') {
+        setFieldDirect(form, mapping.self.amount, selfItem.amount);
+      }
+    }
+
+    if (hasPartner === 'yes') {
+      const partnerItem = sectionF.partner[key];
+      if (partnerItem) {
+        if (partnerItem.description && partnerItem.description.trim() !== '') {
+          setFieldDirect(form, mapping.partner.desc, partnerItem.description);
+        }
+        if (partnerItem.amount && partnerItem.amount.trim() !== '') {
+          setFieldDirect(form, mapping.partner.amount, partnerItem.amount);
+        }
+      }
+    }
+  });
+};
+
+export const fillAssetsData = (form, sectionG) => {
+  if (!sectionG) return;
+
+  Object.keys(assetsMap).forEach(key => {
+    const mapping = assetsMap[key];
+    const item = sectionG[key];
+    if (!item || !item.has) {
+    }
+
+    if (item.has === 'yes') {
+      setCheckbox(form, mapping.ja, true);
+      if (item.description) {
+        setFieldDirect(form, mapping.desc, item.description);
+      }
+      if (item.value) {
+        setFieldDirect(form, mapping.val, item.value);
+      }
+    } else {
+      setCheckbox(form, mapping.nein, true);
+    }
+  });
 };

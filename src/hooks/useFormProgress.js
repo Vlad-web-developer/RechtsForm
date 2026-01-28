@@ -69,14 +69,29 @@ export const useFormProgress = (formData) => {
         if (formData.sectionE.hasPartner) countE_Filled++;
     }
 
-    const grandTotal = countA_Total + countB_Total + countC_Total + countD_Total + countE_Total;
-    const totalFilled = countA_Filled + countB_Filled + countC_Filled + countD_Filled + countE_Filled;
+    const countF_Total = 1;
+    const countF_Filled = 1; 
+
+    const fieldsG = ['bankAccounts', 'realEstate', 'vehicles', 'cash', 'lifeInsurance', 'otherAssets'];
+    const countG_Total = fieldsG.length; 
+    let countG_Filled = 0;
+    
+    fieldsG.forEach(key => {
+      if (formData.sectionG?.[key]?.has) {
+        countG_Filled++;
+      }
+    });
+
+    const grandTotal = countA_Total + countB_Total + countC_Total + countD_Total + countE_Total + countF_Total + countG_Total;
+    const totalFilled = countA_Filled + countB_Filled + countC_Filled + countD_Filled + countE_Filled + countF_Filled + countG_Filled;
     const progressPercent = grandTotal === 0 ? 0 : Math.round((totalFilled / grandTotal) * 100);
 
     const posB = (countA_Total / grandTotal) * 100;
     const posC = ((countA_Total + countB_Total) / grandTotal) * 100;
     const posD = ((countA_Total + countB_Total + countC_Total) / grandTotal) * 100; 
     const posE = ((countA_Total + countB_Total + countC_Total + countD_Total) / grandTotal) * 100;
+    const posF = ((countA_Total + countB_Total + countC_Total + countD_Total + countE_Total) / grandTotal) * 100;
+    const posG = ((countA_Total + countB_Total + countC_Total + countD_Total + countE_Total + countF_Total) / grandTotal) * 100;
 
     return {
       globalProgress: progressPercent,
@@ -86,6 +101,8 @@ export const useFormProgress = (formData) => {
         { label: 'C', position: posC },
         { label: 'D', position: posD },
         { label: 'E', position: posE },
+        { label: 'F', position: posF },
+        { label: 'G', position: posG },
         { label: 'K', position: 100 }
       ]
     };

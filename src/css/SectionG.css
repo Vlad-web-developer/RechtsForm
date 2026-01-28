@@ -1,0 +1,256 @@
+/* --- src/css/SectionG.css --- */
+
+/* Контейнер */
+.section-card {
+  background: var(--card-bg, var(--bg-secondary));
+  border: 1px solid var(--card-border, var(--line-color));
+  border-radius: 20px;
+  padding: 32px;
+  box-shadow: var(--card-shadow);
+  max-width: 800px;
+  margin: 0 auto;
+  transition: all 0.3s ease;
+}
+
+.section-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 24px;
+  color: var(--text-primary);
+  text-align: center;
+}
+
+/* Список карточек */
+.asset-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+/* Карточка вопроса */
+.asset-card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--line-color);
+  border-radius: 16px;
+  padding: 20px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  color: var(--text-primary);
+}
+
+.asset-card:focus-within {
+  border-color: var(--accent-color);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.asset-header {
+  margin-bottom: 15px;
+}
+
+.asset-header strong {
+  display: block;
+  font-size: 1.05rem;
+  margin-bottom: 6px;
+  color: var(--text-primary);
+}
+
+.asset-header p {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin: 0;
+  color: var(--text-secondary);
+}
+
+/* Переключатель Yes/No */
+.asset-controls {
+  display: flex;
+  background: var(--bg-primary);
+  padding: 4px;
+  border-radius: 10px;
+  border: 1px solid var(--line-color);
+  width: fit-content;
+  margin-bottom: 20px;
+}
+
+.btn-toggle {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  padding: 8px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.btn-toggle:hover {
+  color: var(--text-primary);
+}
+
+.selected-ja {
+  background: #22c55e !important;
+  color: white !important;
+  border-color: #16a34a !important;
+}
+
+.selected-nein {
+  background: var(--accent-color) !important;
+  color: white !important;
+  border-color: var(--accent-color) !important;
+}
+
+/* --- БЛОК ПОЛЕЙ ВВОДА (ВЕРТИКАЛЬНЫЙ) --- */
+.form-grid-assets {
+  display: flex;
+  flex-direction: column; /* Всегда вертикально */
+  gap: 15px;
+  padding-top: 15px;
+  border-top: 1px solid var(--line-color);
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.input-label-small {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+/* --- ПОЛЯ ВВОДА --- */
+
+.asset-textarea, 
+.asset-amount-input {
+  width: 100%; /* На всю ширину */
+  background: var(--bg-primary) !important; 
+  border: 1px solid var(--line-color) !important;
+  border-radius: 12px;
+  padding: 14px;
+  font-size: 0.95rem;
+  color: var(--text-primary) !important;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+/* Текстовое поле */
+.asset-textarea {
+  min-height: 80px;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+/* Поле суммы */
+.asset-amount-input {
+  font-weight: 600;
+  color: var(--accent-color) !important;
+  height: 50px;
+}
+
+.asset-textarea:focus, 
+.asset-amount-input:focus {
+  outline: none;
+  border-color: var(--accent-color) !important;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  background: var(--bg-primary) !important;
+}
+
+/* Плейсхолдеры */
+.asset-textarea::placeholder,
+.asset-amount-input::placeholder {
+  color: var(--text-secondary) !important;
+  opacity: 0.7;
+  font-weight: 400;
+}
+
+/* Светлая тема */
+[data-theme='light'] .asset-textarea,
+[data-theme='light'] .asset-amount-input {
+  background: #f8fafc !important;
+}
+
+[data-theme='light'] .asset-textarea::placeholder,
+[data-theme='light'] .asset-amount-input::placeholder {
+  color: #64748b !important;
+}
+
+/* Info Box */
+.info-box-alert {
+  display: flex;
+  gap: 16px;
+  padding: 20px;
+  margin-bottom: 24px;
+  background: rgba(59, 130, 246, 0.1);
+  border-left: 4px solid var(--accent-color);
+  border-radius: 12px;
+  align-items: flex-start;
+  color: var(--text-primary);
+}
+
+.info-icon-container {
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
+.info-text-content h4 {
+  margin: 0 0 5px 0;
+  color: var(--accent-color);
+  font-weight: 600;
+}
+
+.info-text-content p {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+/* Навигация */
+.navigation-footer {
+  display: flex;
+  gap: 12px;
+  margin-top: 30px;
+  border-top: 1px solid var(--line-color);
+  padding-top: 20px;
+}
+
+.btn-primary-action {
+  flex: 1;
+  padding: 14px;
+  border-radius: 10px;
+  background: var(--accent-color);
+  color: white;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.btn-secondary-action {
+  flex: 0.4;
+  padding: 14px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--line-color);
+  color: var(--text-primary);
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.btn-secondary-action:hover {
+  background: var(--bg-primary);
+}
+
+/* Мобильная версия */
+@media (max-width: 600px) {
+  .section-card { padding: 20px; }
+  .navigation-footer { flex-direction: column-reverse; }
+  .btn-secondary-action, .btn-primary-action { width: 100%; }
+}
