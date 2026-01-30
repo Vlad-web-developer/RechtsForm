@@ -1,3 +1,5 @@
+/* src/utils/pdf/pdfMappings.js */
+
 export const incomeMap = {
   nichtselbstaendig: { 
     search: 'durch nichtselbständige Arbeit',
@@ -161,4 +163,73 @@ export const assetsMap = {
     desc: 'Bezeichnung, Allein- oder Miteigentum ',
     val: 'Verkehrswert sonstige Vermögenswerte'
   }
+};
+
+export const housingMap = {
+  general: {
+    space: "1. Gesamtgröße des Wohnraums, den Sie allein oder gemeinsam mit anderen Personen bewohnen",
+    rooms: "2. Zahl der Zimmer",
+    people: "3. Anzahl der Personen, die den Wohnraum insgesamt bewohnen"
+  },
+  tenant: {
+    checkbox: { ja: "H2", nein: "H1" }, 
+    rentCold: "Wohnkosten als Mieter/Mieterin - Miete ohne Nebenkosten", 
+    heating: "Wohnkosten als Mieter/Mieterin - Heizungskosten", 
+    other: "Wohnkosten als Mieter/Mieterin - übrige Nebenkosten",
+    total: "Gesamtbetrag als Mieter/Mieterin", 
+    share: "Ich allein zahle davon als Mieter/Mieterin" 
+  },
+  owner: {
+    checkbox: { ja: "H4", nein: "H3" }, 
+    interest: "Kosten als Eigentümer/Eigentümerin - Zinsen und Tilgung", 
+    heating: "Kosten als Eigentümer/Eigentümerin - Heizungskosten",
+    other: "Kosten als Eigentümer/Eigentümerin - übrige Nebenkosten", 
+    total: "Gesamtbetrag als Eigentümer/Eigentümerin", 
+    share: "Ich allein zahle davon als Eigentümer/Eigentümerin", 
+    
+    details: "Genaue Einzelangaben zu der Belastung aus Fremdmitteln bei Nutzung als (Mit-)Eigentümer usw 1",
+    
+    restschuld1: "Restschuld_H_1", 
+    restschuld2: "Restschuld_H_2",
+    
+    rate1: "Zinsen und Tilgung mtl. 1",
+    rate2: "Zinsen und Tilgung mtl. 2"
+  }
+};
+
+export const obligationsMap = [
+
+  {
+    desc: "Sonstige Zahlungsverpflichtungen 1",
+    debt: "Restschuld in Euro 1", 
+    rate: "Gesamtbelastung mtl. 1",
+    share: "Ich allein zahle davon (sonstige Zahlungsverpflichtungen) 1"
+  },
+  {
+    desc: "Sonstige Zahlungsverpflichtungen 2",
+    debt: "Restschuld in Euro 2",
+    rate: "Gesamtbelastung mtl. 2",
+    share: "Ich allein zahle davon (sonstige Zahlungsverpflichtungen) 2"
+  },
+  {
+    desc: "Sonstige Zahlungsverpflichtungen 3",
+    debt: "Restschuld in Euro 3",
+    rate: "Gesamtbelastung mtl. 3",
+    share: "Ich allein zahle davon (sonstige Zahlungsverpflichtungen) 3"
+  }
+];
+
+export const specialLoadsMap = [
+  {
+    desc: "Besondere Belastungen 1",
+    amount: "Ich allein zahle davon (besondere Belastungen) 1"
+  },
+  {
+    desc: "Besondere Belastungen 2",
+    amount: "Ich allein zahle davon (besondere Belastungen) 2"
+  }
+];
+
+export const declarationMap = {
+  locationDate: "Ort, Datum" 
 };

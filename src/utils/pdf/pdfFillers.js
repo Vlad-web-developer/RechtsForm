@@ -1,5 +1,15 @@
+/* src/utils/pdf/pdfFillers.js */
+
 import { setFieldDirect, setCheckbox, setFieldBySearch } from './pdfHelpers';
-import { incomeMap, deductionMap, assetsMap } from './pdfMappings';
+import { 
+  incomeMap, 
+  deductionMap, 
+  assetsMap, 
+  housingMap, 
+  obligationsMap, 
+  specialLoadsMap,
+  declarationMap 
+} from './pdfMappings';
 
 export const fillPersonalData = (form, sectionA) => {
   setFieldDirect(form, 'Name, Vorname, ggf. Geburtsname', sectionA.fullName);
@@ -166,10 +176,8 @@ export const fillAssetsData = (form, sectionG) => {
   Object.keys(assetsMap).forEach(key => {
     const mapping = assetsMap[key];
     const item = sectionG[key];
-    if (!item || !item.has) {
-    }
-
-    if (item.has === 'yes') {
+    
+    if (item && item.has === 'yes') {
       setCheckbox(form, mapping.ja, true);
       if (item.description) {
         setFieldDirect(form, mapping.desc, item.description);
@@ -181,4 +189,88 @@ export const fillAssetsData = (form, sectionG) => {
       setCheckbox(form, mapping.nein, true);
     }
   });
+};
+
+export const fillHousingData = (form, sectionH) => {
+  if (!sectionH) return;
+
+  setFieldDirect(form, housingMap.general.space, sectionH.livingSpace);
+  setFieldDirect(form, housingMap.general.rooms, sectionH.numberOfRooms);
+  setFieldDirect(form, housingMap.general.people, sectionH.totalPeople);
+
+  if (sectionH.housingType === 'tenant') {
+    setCheckbox(form, housingMap.tenant.checkbox.ja, true);
+    setCheckbox(form, housingMap.owner.checkbox.nein, true);
+
+    setFieldDirect(form, housingMap.tenant.rentCold, sectionH.rentCold);
+    setFieldDirect(form, housingMap.tenant.heating, sectionH.heatingCosts);
+    setFieldDirect(form, housingMap.tenant.other, sectionH.otherCosts);
+    setFieldDirect(form, housingMap.tenant.total, sectionH.totalRent);
+    setFieldDirect(form, housingMap.tenant.share, sectionH.ownShareRent);
+  
+  } 
+  else if (sectionH.housingType === 'owner') {
+    setCheckbox(form, housingMap.tenant.checkbox.nein, true);
+    setCheckbox(form, housingMap.owner.checkbox.ja, true);
+
+    setFieldDirect(form, housingMap.owner.interest, sectionH.interestRepayment);
+    setFieldDirect(form, housingMap.owner.heating, sectionH.heatingCostsOwner);
+    setFieldDirect(form, housingMap.owner.other, sectionH.otherCostsOwner);
+    setFieldDirect(form, housingMap.owner.total, sectionH.totalCostOwner);
+    setFieldDirect(form, housingMap.owner.share, sectionH.ownShareOwner);
+
+    setFieldDirect(form, housingMap.owner.details, sectionH.loanDetails);
+    
+    if (sectionH.loans && sectionH.loans.length > 0) {
+      if (sectionH.loans[0]) {
+        setFieldDirect(form, housingMap.owner.restschuld1, sectionH.loans[0].remainingDebt);
+        setFieldDirect(form, housingMap.owner.rate1, sectionH.loans[0].monthlyPayment);
+      }
+      if (sectionH.loans[1]) {
+        setFieldDirect(form, housingMap.owner.restschuld2, sectionH.loans[1].remainingDebt); 
+        setFieldDirect(form, housingMap.owner.rate2, sectionH.loans[1].monthlyPayment);
+      }
+    }
+  }
+};
+
+export const fillObligationsData = (form, sectionI) => {
+  if (!sectionI || sectionI.hasObligations !== 'yes' || !sectionI.obligations) return;
+
+  sectionI.obligations.forEach((item, index) => {
+    if (index > 2) return;
+
+    const mapping = obligationsMap[index];
+    
+    if (mapping) {
+      setFieldDirect(form, mapping.desc, item.description);
+      setFieldDirect(form, mapping.debt, item.remainingDebt);
+      setFieldDirect(form, mapping.rate, item.monthlyPayment);
+      setFieldDirect(form, mapping.share, item.ownShare);
+    }
+  });
+};
+
+export const fillSpecialLoadsData = (form, sectionJ) => {
+  if (!sectionJ || sectionJ.hasSpecialLoads !== 'yes' || !sectionJ.loads) return;
+
+  sectionJ.loads.forEach((item, index) => {
+    // Поддерживаем обе строки (индексы 0 и 1)
+    if (index > 1) return; 
+
+    const mapping = specialLoadsMap[index];
+    
+    if (mapping) {
+      setFieldDirect(form, mapping.desc, item.description);
+      setFieldDirect(form, mapping.amount, item.amount);
+    }
+  });
+};
+
+export const fillDeclarationData = (form, sectionK) => {
+  if (!sectionK) return;
+
+  const locationDateStr = `${sectionK.location}, ${sectionK.date}`;
+  
+  setFieldDirect(form, declarationMap.locationDate, locationDateStr);
 };

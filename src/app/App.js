@@ -1,3 +1,4 @@
+/* src/App.js */
 import { motion, AnimatePresence } from 'framer-motion';
 import ThemeToggle from '../components/ThemeToggle.jsx';
 import FormIntro from '../components/FormIntro.jsx';
@@ -7,7 +8,11 @@ import SectionC from '../components/SectionC.jsx';
 import SectionD from '../components/SectionD.jsx'; 
 import SectionE from '../components/SectionE.jsx';
 import SectionF from '../components/SectionF.jsx'; 
-import SectionG from '../components/SectionG.jsx'; // <--- 1. Импорт SectionG
+import SectionG from '../components/SectionG.jsx';
+import SectionH from '../components/SectionH.jsx';
+import SectionI from '../components/SectionI.jsx'; 
+import SectionJ from '../components/SectionJ.jsx';
+import SectionK from '../components/SectionK.jsx'; 
 import ProgressBar from '../components/ProgressBar.jsx';
 import { useFormData } from '../hooks/useFormData'; 
 import { useFormProgress } from '../hooks/useFormProgress'; 
@@ -112,32 +117,55 @@ function App() {
                 />
               )}
 
-              {/* --- 2. Добавлен SectionG на шаг 7 --- */}
-{step === 7 && (
-  <SectionG 
-    data={formData.sectionG} 
-    onChange={(field, value) => updateData('sectionG', field, value)}
-    onBack={() => setStep(6)} 
-    onNext={() => setStep(8)} 
-  />
-)}
+              {step === 7 && (
+                <SectionG 
+                  data={formData.sectionG} 
+                  onChange={(field, value) => updateData('sectionG', field, value)}
+                  onBack={() => setStep(6)} 
+                  onNext={() => setStep(8)} 
+                />
+              )}
 
-              {/* --- 3. Финиш сдвинут на шаг 8 --- */}
               {step === 8 && (
-                 <div className="section-card">
-                    <h3>Fertig! (100%)</h3>
-                    <p>Alle Abschnitte sind ausgefüllt. Bitte überprüfen Sie Ihre Daten vor dem Herunterladen.</p>
-                    <div className="button-group">
-                      <button className="btn-primary" onClick={handleDownload}>PDF Herunterladen</button>
-                      <button className="btn-secondary" onClick={() => setStep(7)}>Zurück</button>
-                    </div>
-                 </div>
+                <SectionH 
+                  data={formData.sectionH} 
+                  onChange={(field, value) => updateData('sectionH', field, value)}
+                  onBack={() => setStep(7)} 
+                  onNext={() => setStep(9)} 
+                />
+              )}
+
+              {step === 9 && (
+                <SectionI 
+                  data={formData.sectionI} 
+                  onChange={(field, value) => updateData('sectionI', field, value)}
+                  onBack={() => setStep(8)} 
+                  onNext={() => setStep(10)} 
+                />
+              )}
+
+              {step === 10 && (
+                <SectionJ 
+                  data={formData.sectionJ} 
+                  onChange={(field, value) => updateData('sectionJ', field, value)}
+                  onBack={() => setStep(9)} 
+                  onNext={() => setStep(11)} 
+                />
               )}
 
               {step === 11 && (
+                 <SectionK 
+                   data={formData.sectionK} 
+                   onChange={(field, value) => updateData('sectionK', field, value)}
+                   onBack={() => setStep(10)} 
+                   onFinish={handleDownload} 
+                 />
+              )}
+              {step === 12 && (
                 <div className="section-card">
                   <h3>Fertig!</h3>
                   <p>Alle Abschnitte sind ausgefüllt oder gemäß Ihren Angaben übersprungen (SGB XII).</p>
+                  <p>Bitte vergessen Sie nicht, Ort und Datum auf dem ausgedruckten Formular zu ergänzen.</p>
                   <div className="button-group">
                     <button className="btn-primary" onClick={handleDownload}>PDF Herunterladen</button>
                     <button className="btn-secondary" onClick={() => setStep(5)}>Zurück</button>

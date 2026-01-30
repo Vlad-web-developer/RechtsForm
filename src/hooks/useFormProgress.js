@@ -2,109 +2,65 @@ import { useMemo } from 'react';
 
 export const useFormProgress = (formData) => {
   return useMemo(() => {
-    const fieldsA = ['fullName', 'occupation', 'birthday', 'maritalStatus', 'address', 'phone'];
-    const countA_Total = fieldsA.length;
-    let countA_Filled = 0;
-    fieldsA.forEach(field => {
-      const val = formData.sectionA[field];
-      if (val && val.trim().length > 0) {
-        if (field === 'phone' && val.length < 5) return;
-        countA_Filled++;
-      }
-    });
+    const hasVal = (val) => val && val.toString().trim().length > 0;
 
-    let countB_Total = 2; 
-    let countB_Filled = 0;
-    if (formData.sectionB.hasInsurance) countB_Filled++;
-    if (formData.sectionB.hasInsurance === 'yes' && formData.sectionB.insuranceDetails) countB_Filled++;
-    if (formData.sectionB.hasInsurance === 'no' && formData.sectionB.hasPotentialInsurance) countB_Filled++;
+    const isA = hasVal(formData.sectionA.fullName) && hasVal(formData.sectionA.address) ? 1 : 0;
 
-    let countC_Total = 1; 
-    let countC_Filled = 0;
-    if (formData.sectionC.hasMaintenanceClaims) countC_Filled++;
-    if (formData.sectionC.hasMaintenanceClaims === 'yes' && formData.sectionC.maintenancePersonDetails) {
-        countC_Total++;
-        countC_Filled++;
-    }
+    const isB = formData.sectionB.hasInsurance !== null ? 1 : 0;
 
-    let countD_Total = 1; 
-    let countD_Filled = 0;
-    if (formData.sectionD.hasDependents) countD_Filled++;
-    if (formData.sectionD.hasDependents === 'yes') {
-      formData.sectionD.dependents.forEach(person => {
-         countD_Total += 3; 
-         if (person.name?.trim()) countD_Filled++;
-         if (person.relationship?.trim()) countD_Filled++;
-         if (person.hasOwnIncome) countD_Filled++;
-      });
-    }
+    const isC = formData.sectionC.hasMaintenanceClaims !== null ? 1 : 0;
 
-    let countE_Total = 1; 
-    let countE_Filled = 0;
+    const isD = formData.sectionD.hasDependents !== null ? 1 : 0;
 
-    if (formData.sectionE?.receivesSocialAssistanceSGBXII) {
-        countE_Filled++;
-    }
-
-    if (formData.sectionE?.receivesSocialAssistanceSGBXII === 'no') {
-        const incomeKeys = [
-            'nichtselbstaendig', 'selbstaendig', 'vermietung', 'kapital',
-            'kindergeld', 'wohngeld', 'unterhalt', 'rente', 
-            'arbeitslosengeld', 'buergergeld', 'krankengeld', 'elterngeld', 'sonstige'
-        ];
-        
-        countE_Total += incomeKeys.length; 
-        incomeKeys.forEach(key => {
-            if (formData.sectionE.self?.[key]?.has) countE_Filled++;
-        });
-
-        if (formData.sectionE.hasPartner === 'yes') {
-            countE_Total += incomeKeys.length;
-            incomeKeys.forEach(key => {
-                if (formData.sectionE.partner?.[key]?.has) countE_Filled++;
-            });
-        }
-        
-        countE_Total++; 
-        if (formData.sectionE.hasPartner) countE_Filled++;
-    }
-
-    const countF_Total = 1;
-    const countF_Filled = 1; 
-
-    const fieldsG = ['bankAccounts', 'realEstate', 'vehicles', 'cash', 'lifeInsurance', 'otherAssets'];
-    const countG_Total = fieldsG.length; 
-    let countG_Filled = 0;
+    let isE = 0;
+    const isSGBXII = formData.sectionE?.receivesSocialAssistanceSGBXII === 'yes';
     
-    fieldsG.forEach(key => {
-      if (formData.sectionG?.[key]?.has) {
-        countG_Filled++;
-      }
-    });
+    if (formData.sectionE?.receivesSocialAssistanceSGBXII) {
+        isE = 1;
+    }
 
-    const grandTotal = countA_Total + countB_Total + countC_Total + countD_Total + countE_Total + countF_Total + countG_Total;
-    const totalFilled = countA_Filled + countB_Filled + countC_Filled + countD_Filled + countE_Filled + countF_Filled + countG_Filled;
-    const progressPercent = grandTotal === 0 ? 0 : Math.round((totalFilled / grandTotal) * 100);
+    let isF = isSGBXII ? 1 : 0;
+    let isG = isSGBXII ? 1 : 0;
+    let isH = isSGBXII ? 1 : 0;
+    let isI = isSGBXII ? 1 : 0;
+    let isJ = isSGBXII ? 1 : 0;
 
-    const posB = (countA_Total / grandTotal) * 100;
-    const posC = ((countA_Total + countB_Total) / grandTotal) * 100;
-    const posD = ((countA_Total + countB_Total + countC_Total) / grandTotal) * 100; 
-    const posE = ((countA_Total + countB_Total + countC_Total + countD_Total) / grandTotal) * 100;
-    const posF = ((countA_Total + countB_Total + countC_Total + countD_Total + countE_Total) / grandTotal) * 100;
-    const posG = ((countA_Total + countB_Total + countC_Total + countD_Total + countE_Total + countF_Total) / grandTotal) * 100;
+    if (!isSGBXII) {
+
+        isF = isE; 
+
+        isG = formData.sectionG.bankAccounts.has !== null ? 1 : 0;
+
+        isH = formData.sectionH.housingType ? 1 : 0;
+
+        isI = formData.sectionI.hasObligations !== null ? 1 : 0;
+
+        isJ = formData.sectionJ.hasSpecialLoads !== null ? 1 : 0;
+    }
+
+    const isK = formData.sectionK?.date ? 1 : 0;
+
+    const totalSteps = 11;
+    const completedSteps = isA + isB + isC + isD + isE + isF + isG + isH + isI + isJ + isK;
+    const progressPercent = Math.round((completedSteps / totalSteps) * 100);
+
+    const milestones = [
+        { label: 'A', position: 0 },
+        { label: 'B', position: 10 },
+        { label: 'C', position: 20 },
+        { label: 'D', position: 30 },
+        { label: 'E', position: 40 },
+        { label: 'F', position: 50 },
+        { label: 'G', position: 60 },
+        { label: 'H', position: 70 },
+        { label: 'I', position: 80 },
+        { label: 'J', position: 90 },
+        { label: 'K', position: 100 }
+    ];
 
     return {
       globalProgress: progressPercent,
-      milestones: [
-        { label: 'A', position: 0 },
-        { label: 'B', position: posB },
-        { label: 'C', position: posC },
-        { label: 'D', position: posD },
-        { label: 'E', position: posE },
-        { label: 'F', position: posF },
-        { label: 'G', position: posG },
-        { label: 'K', position: 100 }
-      ]
+      milestones
     };
   }, [formData]);
 };

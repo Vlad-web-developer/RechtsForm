@@ -1,41 +1,62 @@
-import { motion } from 'framer-motion';
-import '../css/ProgressBar.css';
+import '../css/ProgressBar.css'; 
 
-const ProgressBar = ({ progress, steps }) => {
-    return (
-        <div className="timeline-wrapper">
-            <div className="timeline-track">
-                
-                <motion.div 
-                    className="timeline-fill"
-                    initial={{ width: 0 }}
-                    animate={{ width: `${progress}%` }}
-                    transition={{ type: "spring", stiffness: 50, damping: 20 }}
-                >
-                    <div className="timeline-indicator">
-                        <span className="indicator-text">{progress}%</span>
-                        <div className="indicator-line"></div>
-                    </div>
-                </motion.div>
+const STEP_TITLES = {
+  'A': 'Persönliches',
+  'B': 'Versicherung',
+  'C': 'Unterhalt',
+  'D': 'Angehörige',
+  'E': 'Einnahmen',
+  'F': 'Abzüge',
+  'G': 'Vermögen',
+  'H': 'Wohnkosten',
+  'I': 'Zahlungen',
+  'J': 'Belastungen',
+  'K': 'Abschluss'
+};
 
-                {steps.map((step, index) => {
-                    const position = step.position;
-                    const isCompleted = progress >= position;
+const ProgressBar = ({ progress, steps, currentStep, onStepClick }) => {
+  return (
+    <div className="progress-container">
+      <div className="progress-track"></div>
+      <div 
+        className="progress-fill" 
+        style={{ width: `${progress}%` }}
+      ></div>
 
-                    return (
-                        <div 
-                            key={index} 
-                            className={`timeline-node ${isCompleted ? 'completed' : ''}`}
-                            style={{ left: `${position}%` }}
-                        >
-                            <div className="node-circle"></div>
-                            <span className="node-label">{step.label}</span>
-                        </div>
-                    );
-                })}
+      <div className="steps-container">
+        {steps.map((step, index) => {
+          const stepNumber = index + 1;
+
+          const isActive = currentStep === stepNumber;
+
+          const isCompleted = currentStep > stepNumber;
+
+          let statusClass = '';
+          if (isActive) statusClass = 'active';
+          else if (isCompleted) statusClass = 'completed';
+
+          return (
+            <div 
+              key={step.label} 
+              className={`step-node ${statusClass}`}
+              style={{ left: `${step.position}%` }}
+              onClick={() => {
+                if (isCompleted && onStepClick) {
+                   onStepClick(stepNumber); 
+                }
+              }}
+            >
+              {step.label}
+
+              <div className="step-tooltip">
+                {STEP_TITLES[step.label] || step.label}
+              </div>
             </div>
-        </div>
-    );
+          );
+        })}
+      </div>
+    </div>
+  );
 };
 
 export default ProgressBar;

@@ -57,11 +57,10 @@ const SectionF = ({ data, onChange, onBack, onNext, hasPartner }) => {
 		if (subStep === 0) {
 			setSubStep(1)
 		} else if (subStep === 1) {
-			// Check inherited prop from Section E
 			if (hasPartner === 'yes') {
-				setSubStep(2) // Go to partner fields
+				setSubStep(2) 
 			} else {
-				onNext() // Finish section
+				onNext() 
 			}
 		} else {
 			onNext()

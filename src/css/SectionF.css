@@ -24,9 +24,7 @@
 	font-size: 1.3rem;
 	font-weight: 600;
 	margin-bottom: 20px;
-	color: var(
-		--text-primary
-	); /* Fixed: uses variable instead of hardcoded dark gray */
+	color: var(--text-primary); 
 }
 
 /* Income List & Cards */
@@ -104,14 +102,12 @@
 	transition: all 0.2s ease;
 }
 
-/* Specific styling for amount input */
 .brutto-input {
 	font-weight: 600;
 	color: var(--accent-color) !important;
 	text-align: left;
 }
 
-/* Focus States */
 .details-input:focus,
 .brutto-input:focus {
 	outline: none;
@@ -119,15 +115,12 @@
 	background: var(--bg-primary) !important;
 	box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
 }
-
-/* Placeholders */
 .brutto-input::placeholder,
 .details-input::placeholder {
 	color: var(--text-secondary);
 	opacity: 0.7;
 }
 
-/* Light Theme Overrides */
 [data-theme='light'] .details-input,
 [data-theme='light'] .brutto-input {
 	background: #f8fafc !important;
@@ -135,11 +128,10 @@
 
 [data-theme='light'] .details-input::placeholder,
 [data-theme='light'] .brutto-input::placeholder {
-	color: #475569 !important; /* Darker color (Slate-600) for better visibility */
+	color: #475569 !important; 
 	opacity: 1;
 }
 
-/* Info Boxes */
 .info-box-alert {
 	display: flex;
 	gap: 16px;
@@ -187,7 +179,6 @@
 	font-style: italic;
 }
 
-/* Navigation */
 .navigation-footer {
 	display: flex;
 	gap: 12px;
@@ -229,7 +220,6 @@
 	background: var(--btn-secondary-hover);
 }
 
-/* SGB / Partner Toggle Buttons */
 .substep-instruction {
 	margin-bottom: 20px;
 	font-size: 1.05rem;
@@ -276,19 +266,16 @@
 	border-color: var(--accent-color) !important;
 }
 
-/* Currency Input Wrapper */
 .currency-input {
 	position: relative;
 	display: flex;
 	align-items: center;
 }
 
-/* Utility / Special */
 .mb-15 {
 	margin-bottom: 15px;
 }
 
-/* Responsive */
 @media (max-width: 640px) {
 	.section-card {
 		padding: 20px;

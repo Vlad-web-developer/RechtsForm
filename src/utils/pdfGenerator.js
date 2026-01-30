@@ -6,7 +6,11 @@ import {
   fillDependentsData, 
   fillIncomeData,
   fillDeductionsData,
-  fillAssetsData 
+  fillAssetsData,
+  fillHousingData,
+  fillObligationsData,
+  fillSpecialLoadsData,
+  fillDeclarationData
 } from './pdf/pdfFillers';
 
 export const generateAndDownloadPDF = async (formData) => {
@@ -15,8 +19,9 @@ export const generateAndDownloadPDF = async (formData) => {
   try {
     const existingPdfBytes = await fetch(url).then((res) => res.arrayBuffer());
     const pdfDoc = await PDFDocument.load(existingPdfBytes);
-    const form = pdfDoc.getForm();
-    const fields = form.getFields(); 
+
+const form = pdfDoc.getForm();
+const fields = form.getFields();
 
     fillPersonalData(form, formData.sectionA);
     fillInsuranceData(form, formData.sectionB);
@@ -24,8 +29,11 @@ export const generateAndDownloadPDF = async (formData) => {
     fillDependentsData(form, formData.sectionD);
     fillIncomeData(form, fields, formData.sectionE);
     fillDeductionsData(form, formData.sectionF, formData.sectionE.hasPartner);
-    
     fillAssetsData(form, formData.sectionG);
+    fillHousingData(form, formData.sectionH);
+    fillObligationsData(form, formData.sectionI);
+    fillSpecialLoadsData(form, formData.sectionJ);
+    fillDeclarationData(form, formData.sectionK);
 
     const pdfBytes = await pdfDoc.save();
     const blob = new Blob([pdfBytes], { type: 'application/pdf' });

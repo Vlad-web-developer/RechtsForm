@@ -35,8 +35,7 @@
   display: flex;
   background: var(--bg-primary);
   padding: 4px;
-  border-radius: 10px;
-  border: 1px solid var(--line-color);
+  border-radius: 7px;
 }
 
 .btn-toggle {
@@ -48,6 +47,7 @@
   cursor: pointer;
   font-size: 0.85rem;
   font-weight: 600;
+  margin-right: 10px;
   transition: all 0.2s ease;
 }
 

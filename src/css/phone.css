@@ -1,19 +1,13 @@
-/* =========================================
-   6. PHONE INPUT (react-phone-input-2) FIXED
-   ========================================= */
-
-/* 1. Глобальная обертка */
 .react-tel-input {
 	font-family: inherit !important;
 	width: 100% !important;
 	position: relative;
 }
 
-/* 2. Поле ввода (где цифры) */
 .react-tel-input .form-control {
 	width: 100% !important;
 	height: 48px !important;
-	padding-left: 58px !important; /* Отступ под флаг и +49 */
+	padding-left: 58px !important; 
 	background-color: var(--input-bg) !important;
 	border: 1.5px solid var(--input-border) !important;
 	border-radius: 10px !important;
@@ -23,7 +17,6 @@
 	transition: all 0.3s ease !important;
 }
 
-/* Фокус на поле */
 .react-tel-input .form-control:focus {
 	border-color: var(--accent-color) !important;
 	box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15) !important;
@@ -31,17 +24,16 @@
 
 .react-tel-input .form-control::placeholder {
 	color: var(--text-secondary) !important;
-	opacity: 1; /* Increased from 0.7 for better visibility */
+	opacity: 1; 
 }
 
-/* 3. Кнопка флага (слева) */
 .react-tel-input .flag-dropdown {
 	background-color: transparent !important;
 	border: none !important;
 	border-right: 1px solid var(--line-color) !important;
 	border-top-left-radius: 10px !important;
 	border-bottom-left-radius: 10px !important;
-	width: 48px !important; /* Чуть шире */
+	width: 48px !important; 
 	top: 1px !important;
 	bottom: 1px !important;
 	left: 1px !important;
@@ -53,14 +45,12 @@
 	border-radius: 10px 0 0 10px !important;
 }
 
-/* Фон под флагом (убираем дефолтный белый) */
 .react-tel-input .selected-flag {
 	background-color: transparent !important;
 	width: 100% !important;
 	border-radius: 10px 0 0 10px !important;
 }
 
-/* Стрелочка у флага */
 .react-tel-input .selected-flag .arrow {
 	border-top-color: var(--text-secondary) !important;
 }
@@ -68,22 +58,18 @@
 	border-top-color: var(--accent-color) !important;
 }
 
-/* 4. ВЫПАДАЮЩИЙ СПИСОК (Исправляем белый фон) */
 .react-tel-input .country-list {
-	background-color: var(--card-bg) !important; /* Цвет карточки */
+	background-color: var(--card-bg) !important; 
 	color: var(--text-primary) !important;
 	border: 1px solid var(--accent-color) !important;
 	border-radius: 10px !important;
 	margin-top: 10px !important;
 	box-shadow: var(--card-shadow) !important;
-	width: 300px !important; /* Ширина списка */
-
-	/* Скроллбар */
+	width: 300px !important; 
 	scrollbar-width: thin;
 	scrollbar-color: var(--text-secondary) transparent;
 }
 
-/* Элементы списка (страны) */
 .react-tel-input .country-list .country {
 	padding: 10px 12px !important;
 	transition: background 0.2s;
@@ -91,18 +77,15 @@
 	align-items: center !important;
 }
 
-/* Ховер на страну */
 .react-tel-input .country-list .country:hover {
 	background-color: var(--btn-secondary-hover) !important;
 }
 
-/* Выбранная страна (highlight) */
 .react-tel-input .country-list .country.highlight {
 	background-color: var(--accent-color) !important;
 	color: #ffffff !important;
 }
 
-/* Текст (+49) внутри списка */
 .react-tel-input .country-list .country .dial-code {
 	color: var(--text-secondary) !important;
 	margin-left: 6px !important;
@@ -111,9 +94,8 @@
 	color: #ffffff !important;
 }
 
-/* 5. ПОЛЕ ПОИСКА В СПИСКЕ (Fix search box) */
 .react-tel-input .country-list .search {
-	background-color: var(--input-bg) !important; /* Темный фон в темной теме */
+	background-color: var(--input-bg) !important; 
 	padding: 8px !important;
 	position: sticky !important;
 	top: 0;
@@ -122,7 +104,7 @@
 }
 
 .react-tel-input .country-list .search-box {
-	background-color: var(--bg-color) !important; /* Фон инпута поиска */
+	background-color: var(--bg-color) !important;
 	color: var(--text-primary) !important;
 	border: 1px solid var(--input-border) !important;
 	border-radius: 6px !important;
@@ -137,7 +119,6 @@
 	color: var(--text-secondary) !important;
 }
 
-/* Скроллбар для Webkit (Chrome/Safari) */
 .react-tel-input .country-list::-webkit-scrollbar {
 	width: 8px;
 }

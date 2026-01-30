@@ -239,16 +239,14 @@ textarea:focus, input:focus {
 
 @media (max-width: 640px) {
   .content {
-    padding: 20px 10px; /* Уменьшаем внешние отступы */
+    padding: 20px 10px; 
   }
 
-
   .section-card {
-    padding: 25px 20px; /* Уменьшаем внутренние отступы карточки */
+    padding: 25px 20px; 
     border-radius: 15px;
   }
 
-  /* В Разделе А делаем всё в одну колонку */
   .grid-container {
     grid-template-columns: 1fr !important;
     gap: 15px;
@@ -258,14 +256,11 @@ textarea:focus, input:focus {
     margin: 0 0 35px;
   }
   
-  /* Элементы, которые были на всю ширину (full-width),
-     теперь просто занимают свою единственную колонку */
   .full-width {
     grid-column: span 1 !important;
   }
 }
 
-/* 2. Маленькие телефоны (iPhone SE, старые Android - 320px-400px) */
 @media (max-width: 420px) {
 
   .input-group label {
@@ -273,33 +268,30 @@ textarea:focus, input:focus {
   }
 
   .section-title {
-    font-size: 1.2rem; /* Уменьшаем заголовок */
+    font-size: 1.2rem; 
   }
 
-  /* Инпуты и текстарии на всю ширину */
   input, textarea, .PhoneInput {
     width: 100% !important;
     max-width: 100% !important;
-    font-size: 16px !important; /* 16px предотвращает зум на iPhone при клике */
+    font-size: 16px !important; 
     padding: 5px !important;
   }
 
-  /* Кнопки "Да/Нет" в столбик, если очень узко */
   .button-group {
     flex-direction: column; 
     gap: 10px;
   }
 
   .btn-primary, .btn-secondary {
-    width: 100%; /* Кнопки на всю ширину */
+    width: 100%; 
   }
 
   .info-text {
-    font-size: 0.85rem !important; /* Чуть меньше шрифт */
-    word-wrap: break-word; /* Чтобы длинные слова не ломали верстку */
+    font-size: 0.85rem !important; 
+    word-wrap: break-word; 
   }
   
-  /* Исправление для PhoneInput, чтобы флаг не сжимался */
   .PhoneInputCountry {
     margin-right: 8px;
   }
