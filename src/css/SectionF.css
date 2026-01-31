@@ -1,6 +1,37 @@
-/* --- src/css/SectionF.css --- */
 
-/* Container */
+
+:root {
+  --bg-color: #f8fafc;         
+  --card-bg: #ffffff;          
+  --text-primary: #0f172a;     
+  --text-secondary: #475569;   
+  --line-color: #e2e8f0;       
+  
+  
+  --input-bg: #ffffff;         
+  --input-border: #cbd5e1;
+  --input-text: #0f172a;       
+  
+  --accent-color: #3b82f6;     
+  --btn-secondary-hover: #f1f5f9;
+}
+
+
+body.dark-mode {
+  --bg-color: #0f172a;
+  --card-bg: #1e293b;
+  --text-primary: #f8fafc;     
+  --text-secondary: #94a3b8;
+  --line-color: #334155;
+
+  
+  --input-bg: #0f172a;         
+  --input-border: #475569;
+  --input-text: #f1f5f9;       
+
+  --btn-secondary-hover: rgba(255, 255, 255, 0.05);
+}
+
 .section-card {
 	background: var(--card-bg);
 	border: 1px solid var(--card-border);
@@ -24,10 +55,10 @@
 	font-size: 1.3rem;
 	font-weight: 600;
 	margin-bottom: 20px;
-	color: var(--text-primary); 
+	color: var(--text-primary);
 }
 
-/* Income List & Cards */
+
 .income-list {
 	display: flex;
 	flex-direction: column;
@@ -55,7 +86,7 @@
 	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-/* Category Text Styles (replaced inline styles) */
+
 .category-label {
 	display: block;
 	font-size: 1rem;
@@ -72,12 +103,13 @@
 	margin: 0;
 }
 
-/* Form Grid */
+
 .form-grid {
 	display: grid;
 	grid-template-columns: 2fr 1fr;
 	gap: 15px;
 	margin-top: 15px;
+	align-items: end; 
 }
 
 .input-label-small {
@@ -90,7 +122,7 @@
 	letter-spacing: 0.5px;
 }
 
-/* Inputs */
+
 .details-input,
 .brutto-input {
 	width: 100%;
@@ -128,7 +160,7 @@
 
 [data-theme='light'] .details-input::placeholder,
 [data-theme='light'] .brutto-input::placeholder {
-	color: #475569 !important; 
+	color: #475569 !important;
 	opacity: 1;
 }
 
@@ -183,7 +215,6 @@
 	display: flex;
 	gap: 12px;
 	margin-top: 30px;
-	border-top: 1px solid var(--line-color);
 	padding-top: 20px;
 }
 
@@ -202,6 +233,8 @@
 
 .btn-primary-action:hover {
 	background: var(--accent-hover);
+	transform: translateY(-2px);
+	box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
 }
 
 .btn-secondary-action {
@@ -298,5 +331,69 @@
 
 	.button-row-sgb {
 		flex-direction: column;
+	}
+}
+
+
+
+.income-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.income-card {
+  background-color: var(--input-bg); 
+  border: 1px solid var(--line-color);
+  border-radius: 12px;
+  padding: 20px;
+  transition: all 0.3s ease;
+}
+
+.income-card:hover {
+  border-color: var(--accent-color);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.category-label {
+  display: block;
+  font-size: 1.05rem;
+  color: #f1f5f9;
+  margin-bottom: 4px;
+}
+
+.category-desc {
+  font-size: 0.85rem;
+  color: #94a3b8;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.mb-15 {
+  margin-bottom: 15px;
+}
+
+
+.deduction-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr; 
+  gap: 15px;
+  align-items: end; 
+}
+
+
+@media (max-width: 600px) {
+  .deduction-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+}
+
+@media (max-width: 400px) {
+	.section-subtitle {
+		font-size: 1rem;
+	}
+	.input-label {
+		font-size: 0.7rem;
 	}
 }

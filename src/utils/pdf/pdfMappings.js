@@ -1,4 +1,4 @@
-/* src/utils/pdf/pdfMappings.js */
+
 
 export const incomeMap = {
   nichtselbstaendig: { 
@@ -189,8 +189,8 @@ export const housingMap = {
     
     details: "Genaue Einzelangaben zu der Belastung aus Fremdmitteln bei Nutzung als (Mit-)Eigentümer usw 1",
     
-    restschuld1: "Restschuld_H_1", 
-    restschuld2: "Restschuld_H_2",
+    restschuld1: "Restschuld in Euro 1 H", 
+    restschuld2: "Restschuld in Euro 2 H",
     
     rate1: "Zinsen und Tilgung mtl. 1",
     rate2: "Zinsen und Tilgung mtl. 2"

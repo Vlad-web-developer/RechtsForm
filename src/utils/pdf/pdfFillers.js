@@ -1,4 +1,4 @@
-/* src/utils/pdf/pdfFillers.js */
+
 
 import { setFieldDirect, setCheckbox, setFieldBySearch } from './pdfHelpers';
 import { 
@@ -69,7 +69,7 @@ export const fillIncomeData = (form, fields, sectionE) => {
   Object.keys(incomeMap).forEach(key => {
     const mapping = incomeMap[key];
     
-    // Заявитель
+    
     const selfItem = sectionE.self[key];
     if (selfItem) {
       if (selfItem.has === 'yes') {
@@ -255,7 +255,7 @@ export const fillSpecialLoadsData = (form, sectionJ) => {
   if (!sectionJ || sectionJ.hasSpecialLoads !== 'yes' || !sectionJ.loads) return;
 
   sectionJ.loads.forEach((item, index) => {
-    // Поддерживаем обе строки (индексы 0 и 1)
+    
     if (index > 1) return; 
 
     const mapping = specialLoadsMap[index];
