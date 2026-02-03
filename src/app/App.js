@@ -1,6 +1,4 @@
-import React from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-
 
 import FormIntro from '../components/FormIntro.jsx'
 import ProgressBar from '../components/ProgressBar.jsx'
@@ -17,10 +15,8 @@ import SectionJ from '../components/SectionJ.jsx'
 import SectionK from '../components/SectionK.jsx'
 import ThemeToggle from '../components/ThemeToggle.jsx'
 
-
 import '../css/App.css'
 import '../css/index.css'
-
 
 import { useFormData } from '../hooks/useFormData'
 import { useFormProgress } from '../hooks/useFormProgress'
@@ -35,7 +31,7 @@ function App() {
   }
 
   return (
-    <div className='App'>
+    <div className='app'>
       <header className='main-header'>
         <h1 className='logo'>
          Prozesskostenhilfe
