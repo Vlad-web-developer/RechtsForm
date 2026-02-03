@@ -132,7 +132,7 @@ const SectionF = ({ data, onChange, onBack, onNext, hasPartner }) => {
                             </label>
                             <input
                                 type='text'
-                                className='modern-input'
+                                className='brutto-input'
                                 style={{ color: 'var(--accent-color)', fontWeight: '600' }}
                                 placeholder={cat.placeholderAmnt}
                                 value={data[personType][cat.key].amount}
@@ -149,39 +149,6 @@ const SectionF = ({ data, onChange, onBack, onNext, hasPartner }) => {
             ))}
 
             {}
-            <div 
-                className="checkbox-wrapper" 
-                style={{ 
-                    marginTop: '20px', 
-                    padding: '15px', 
-                    background: 'var(--input-bg)', 
-                    borderRadius: '10px',
-                    border: '1px solid var(--line-color)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '12px',
-                    cursor: 'pointer'
-                }}
-                onClick={() => setNoExpensesConfirmed(!noExpensesConfirmed)}
-            >
-                <div style={{
-                    width: '24px',
-                    height: '24px',
-                    borderRadius: '6px',
-                    border: `2px solid ${noExpensesConfirmed ? 'var(--accent-color)' : 'var(--text-secondary)'}`,
-                    background: noExpensesConfirmed ? 'var(--accent-color)' : 'transparent',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    color: 'white',
-                    transition: 'all 0.2s'
-                }}>
-                    {noExpensesConfirmed && '✓'}
-                </div>
-                <span style={{ color: 'var(--text-primary)', fontWeight: '500' }}>
-                    Ich habe keine (weiteren) Abzüge anzugeben.
-                </span>
-            </div>
         </div>
     )
 

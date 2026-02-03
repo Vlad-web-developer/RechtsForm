@@ -68,3 +68,11 @@ input:checked + .slider-dynamic:before {
 
 input:checked + .slider-dynamic .sun-svg { opacity: 0; transform: translateY(-10px); }
 input:checked + .slider-dynamic .moon-svg { opacity: 1; transform: translateY(0); }
+
+@media (max-width: 420px) {
+  .theme-switch-container {
+    transform: scale(0.75);
+    transform-origin: center; 
+    margin-left: auto;
+  }
+}

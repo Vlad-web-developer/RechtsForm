@@ -76,8 +76,6 @@ const SectionG = ({ data, onChange, onBack, onNext }) => {
                     item.value.trim() !== ''
                 );
             }
-            
-            
             return true;
         });
     };
@@ -118,15 +116,15 @@ const SectionG = ({ data, onChange, onBack, onNext }) => {
                             </div>
 
                             <div className='asset-controls'>
+                                {}
                                 <button
-                                    className={`btn-toggle ${itemData.has === 'yes' ? 'selected-ja' : ''}`}
+                                    className={`btn-toggle ${itemData.has === 'yes' ? 'active-ja' : ''}`}
                                     onClick={() => handleToggle(cat.key, 'yes')}
                                 >
-                                    {}
-                                    {itemData.has === 'yes' && <span>✓</span>} Ja
+                                    Ja
                                 </button>
                                 <button
-                                    className={`btn-toggle ${itemData.has === 'no' ? 'selected-nein' : ''}`}
+                                    className={`btn-toggle ${itemData.has === 'no' ? 'active-nein' : ''}`}
                                     onClick={() => handleToggle(cat.key, 'no')}
                                 >
                                     Nein
@@ -141,7 +139,7 @@ const SectionG = ({ data, onChange, onBack, onNext }) => {
                                             <span style={{ color: '#ef4444' }}>*</span>
                                         </label>
                                         <textarea
-                                            className='asset-textarea'
+                                            className='modern-input'
                                             rows="2"
                                             placeholder={cat.placeholderDesc}
                                             value={itemData.description || ''}
@@ -153,8 +151,9 @@ const SectionG = ({ data, onChange, onBack, onNext }) => {
                                             Wert in € <span style={{ color: '#ef4444' }}>*</span>
                                         </label>
                                         <input
-                                            type='number'
-                                            className='asset-amount-input'
+                                            type='text' 
+                                            inputMode='decimal'
+                                            className='modern-input money-input' 
                                             placeholder={cat.placeholderVal}
                                             value={itemData.value || ''}
                                             onChange={e => handleChange(cat.key, 'value', e.target.value)}
@@ -174,8 +173,12 @@ const SectionG = ({ data, onChange, onBack, onNext }) => {
                 <button
                     className='btn-primary-action'
                     onClick={onNext}
-                    
-                    style={{ opacity: isStepValid() ? 1 : 0.5, cursor: isStepValid() ? 'pointer' : 'not-allowed' }}
+                    disabled={!isStepValid()}
+                    style={{ 
+                        opacity: isStepValid() ? 1 : 0.5, 
+                        cursor: isStepValid() ? 'pointer' : 'not-allowed',
+                        background: isStepValid() ? 'var(--accent-color)' : '#94a3b8' 
+                    }}
                 >
                     Weiter zu Abschnitt H
                 </button>

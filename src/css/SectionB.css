@@ -10,12 +10,34 @@
 .mt-20 { margin-top: 20px; }
 .mt-40 { margin-top: 40px; }
 
-.active-selection {
-  background-color: rgba(59, 130, 246, 0.1) !important;
-  border-width: 2px !important;
-  font-weight: bold;
-  color: var(--accent-color) !important;
-  border-color: var(--accent-color) !important;
+
+
+.active-ja {
+  background: rgba(34, 197, 94, 0.15) !important; 
+  border-color: #22c55e !important;               
+  color: #22c55e !important;                      
+  box-shadow: 0 0 10px rgba(34, 197, 94, 0.2);    
+  font-weight: 700;
+}
+
+
+
+.active-nein {
+  background: rgba(59, 130, 246, 0.1) !important; 
+  border-color: #3b82f6 !important;               
+  color: #3b82f6 !important;                      
+  font-weight: 700;
+}
+
+
+.btn-secondary {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.2s ease-in-out;
+  border: 1px solid var(--line-color);
+  color: var(--text-secondary);
+  background: transparent;
 }
 
 .warning-box {

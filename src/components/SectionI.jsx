@@ -75,7 +75,7 @@ const SectionI = ({ data, onChange, onBack, onNext }) => {
                         }
                     }}
                 >
-                    {data.hasObligations === 'yes' && <span>✓</span>} Ja
+                    {data.hasObligations === 'yes' } Ja
                 </button>
                 <button
                     className={`btn-toggle-i ${data.hasObligations === 'no' ? 'active-no' : ''}`}

@@ -76,7 +76,7 @@ const SectionJ = ({ data, onChange, onBack, onNext }) => {
                         }
                     }}
                 >
-                    {data.hasSpecialLoads === 'yes' && <span>✓</span>} Ja
+                    {data.hasSpecialLoads === 'yes'} Ja
                 </button>
                 <button
                     className={`btn-toggle-j ${data.hasSpecialLoads === 'no' ? 'active-no' : ''}`}

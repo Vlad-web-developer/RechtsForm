@@ -7,6 +7,25 @@
   margin-bottom: 12px;
 }
 
+
+.active-nein {
+  background-color: transparent !important; 
+  border: 2px solid #3b82f6 !important;    
+  color: #3b82f6 !important;               
+  font-weight: bold;
+  box-shadow: 0 0 10px rgba(59, 130, 246, 0.2); 
+}
+
+
+.active-ja {
+  background-color: transparent !important; 
+  border: 2px solid #10b981 !important;    
+  color: #10b981 !important;               
+  font-weight: bold;
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.2); 
+}
+
+
 .question-text {
   flex: 2; 
   font-size: 1rem;
@@ -112,3 +131,4 @@
     font-size: 0.8rem;
   }
 }
+

@@ -66,7 +66,6 @@ const SectionH = ({ data, onChange, onBack, onNext }) => {
                     <label className='input-label'>
                         Gesamtgröße (m²) <span style={{ color: '#ef4444' }}>*</span>
                     </label>
-                    {}
                     <NumberInput
                         placeholder='65'
                         value={data.livingSpace}
@@ -77,7 +76,6 @@ const SectionH = ({ data, onChange, onBack, onNext }) => {
                     <label className='input-label'>
                         Zimmeranzahl <span style={{ color: '#ef4444' }}>*</span>
                     </label>
-                    {}
                     <NumberInput
                         placeholder='3'
                         value={data.numberOfRooms}
@@ -88,7 +86,6 @@ const SectionH = ({ data, onChange, onBack, onNext }) => {
                     <label className='input-label'>
                         Personen im Haushalt <span style={{ color: '#ef4444' }}>*</span>
                     </label>
-                    {}
                     <NumberInput
                         placeholder='2'
                         value={data.totalPeople}
@@ -142,7 +139,7 @@ const SectionH = ({ data, onChange, onBack, onNext }) => {
                                 </label>
                                 <input
                                     type='text'
-                                    className='modern-input input-highlight'
+                                    className='brutto-input' 
                                     placeholder='0,00'
                                     value={data.rentCold || ''}
                                     onChange={e => updateField('rentCold', e.target.value)}
@@ -152,7 +149,7 @@ const SectionH = ({ data, onChange, onBack, onNext }) => {
                                 <label className='input-label'>Heizungskosten <span style={{ color: '#ef4444' }}>*</span></label>
                                 <input
                                     type='text'
-                                    className='modern-input input-highlight'
+                                    className='brutto-input' 
                                     placeholder='0,00'
                                     value={data.heatingCosts || ''}
                                     onChange={e => updateField('heatingCosts', e.target.value)}
@@ -162,7 +159,7 @@ const SectionH = ({ data, onChange, onBack, onNext }) => {
                                 <label className='input-label'>Nebenkosten (Übrige) <span style={{ color: '#ef4444' }}>*</span></label>
                                 <input
                                     type='text'
-                                    className='modern-input input-highlight'
+                                    className='brutto-input' 
                                     placeholder='0,00'
                                     value={data.otherCosts || ''}
                                     onChange={e => updateField('otherCosts', e.target.value)}
@@ -170,12 +167,12 @@ const SectionH = ({ data, onChange, onBack, onNext }) => {
                             </div>
 
                             <div className='input-group'>
-                                <label className='input-label' style={{ color: 'var(--accent-color)' }}>
+                                <label className='input-label'>
                                     Gesamtbetrag <span style={{ color: '#ef4444' }}>*</span>
                                 </label>
                                 <input
                                     type='text'
-                                    className='modern-input input-highlight'
+                                    className='brutto-input' 
                                     placeholder='Summe'
                                     style={{ borderColor: 'var(--accent-color)' }}
                                     value={data.totalRent || ''}
@@ -186,7 +183,7 @@ const SectionH = ({ data, onChange, onBack, onNext }) => {
                                 <label className='input-label'>Ich allein zahle davon: <span style={{ color: '#ef4444' }}>*</span></label>
                                 <input
                                     type='text'
-                                    className='modern-input input-highlight'
+                                    className='brutto-input' 
                                     placeholder='Ihr Anteil'
                                     value={data.ownShareRent || ''}
                                     onChange={e => updateField('ownShareRent', e.target.value)}
@@ -212,7 +209,7 @@ const SectionH = ({ data, onChange, onBack, onNext }) => {
                                 </label>
                                 <input
                                     type='text'
-                                    className='modern-input input-highlight'
+                                    className='brutto-input' 
                                     placeholder='Rate an Bank'
                                     value={data.interestRepayment || ''}
                                     onChange={e => updateField('interestRepayment', e.target.value)}
@@ -222,7 +219,7 @@ const SectionH = ({ data, onChange, onBack, onNext }) => {
                                 <label className='input-label'>Heizungskosten <span style={{ color: '#ef4444' }}>*</span></label>
                                 <input
                                     type='text'
-                                    className='modern-input input-highlight'
+                                    className='brutto-input' 
                                     placeholder='0,00'
                                     value={data.heatingCostsOwner || ''}
                                     onChange={e => updateField('heatingCostsOwner', e.target.value)}
@@ -232,7 +229,7 @@ const SectionH = ({ data, onChange, onBack, onNext }) => {
                                 <label className='input-label'>Nebenkosten (Übrige) <span style={{ color: '#ef4444' }}>*</span></label>
                                 <input
                                     type='text'
-                                    className='modern-input input-highlight'
+                                    className='brutto-input' 
                                     placeholder='Wasser, Müll, Grundsteuer...'
                                     value={data.otherCostsOwner || ''}
                                     onChange={e => updateField('otherCostsOwner', e.target.value)}
@@ -240,12 +237,12 @@ const SectionH = ({ data, onChange, onBack, onNext }) => {
                             </div>
 
                             <div className='input-group'>
-                                <label className='input-label' style={{ color: 'var(--accent-color)' }}>
+                                <label className='input-label' >
                                     Gesamtbetrag <span style={{ color: '#ef4444' }}>*</span>
                                 </label>
                                 <input
                                     type='text'
-                                    className='modern-input input-highlight'
+                                    className='brutto-input' 
                                     placeholder='Summe'
                                     style={{ borderColor: 'var(--accent-color)' }}
                                     value={data.totalCostOwner || ''}
@@ -256,7 +253,7 @@ const SectionH = ({ data, onChange, onBack, onNext }) => {
                                 <label className='input-label'>Ich allein zahle davon: <span style={{ color: '#ef4444' }}>*</span>  </label>
                                 <input
                                     type='text'
-                                    className='modern-input input-highlight'
+                                    className='brutto-input' 
                                     placeholder='Ihr Anteil'
                                     value={data.ownShareOwner || ''}
                                     onChange={e => updateField('ownShareOwner', e.target.value)}
@@ -297,14 +294,14 @@ const SectionH = ({ data, onChange, onBack, onNext }) => {
                                         <div key={idx} className='loan-row'>
                                             <input
                                                 type='text'
-                                                className='modern-input input-highlight'
+                                                className='brutto-input' 
                                                 placeholder='Restschuld'
                                                 value={loanItem.remainingDebt || ''}
                                                 onChange={e => updateLoan(idx, 'remainingDebt', e.target.value)}
                                             />
                                             <input
                                                 type='text'
-                                                className='modern-input input-highlight'
+                                                className='brutto-input' 
                                                 placeholder='Monatliche Rate'
                                                 value={loanItem.monthlyPayment || ''}
                                                 onChange={e => updateLoan(idx, 'monthlyPayment', e.target.value)}
@@ -328,7 +325,8 @@ const SectionH = ({ data, onChange, onBack, onNext }) => {
                     disabled={!isStepValid()}
                     style={{ 
                         opacity: isStepValid() ? 1 : 0.5, 
-                        cursor: isStepValid() ? 'pointer' : 'not-allowed' 
+                        cursor: isStepValid() ? 'pointer' : 'not-allowed',
+                        background: isStepValid() ? 'var(--accent-color)' : '#94a3b8' 
                     }}
                     title={
                         !isStepValid() ? 'Bitte füllen Sie alle Pflichtfelder aus' : ''

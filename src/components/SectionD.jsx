@@ -4,6 +4,8 @@ import '../css/SectionD.css'
 import DateInput from './common/DateInput'
 
 const SectionD = ({ data, onChange, onBack, onNext }) => {
+    
+    
     const handleMainOptionChange = val => {
         onChange('hasDependents', val)
         if (val === 'yes' && data.dependents.length === 0) {
@@ -46,7 +48,6 @@ const SectionD = ({ data, onChange, onBack, onNext }) => {
     const isStepValid = () => {
         if (!data.hasDependents) return false
         if (data.hasDependents === 'no') return true
-
         if (data.dependents.length === 0) return false
 
         return data.dependents.every(person => {
@@ -65,29 +66,63 @@ const SectionD = ({ data, onChange, onBack, onNext }) => {
         })
     }
 
+    
     return (
         <div className='section-card'>
             <h2 className='section-title'>D. Angehörige (Unterhalt)</h2>
 
-            {}
             <div className='input-group mb-25'>
-                <div className='section-d-question-container'>
-                    <span className='question-text-d'>
-                        Gewähren Sie Angehörigen Bar- oder Naturalunterhalt?{' '}
-                        <span style={{ color: 'red' }}>*</span>
-                    </span>
-                    <span className='subtext-d'>(z. B. Kinder, Ehegatte, Eltern)</span>
+                <div 
+                    className='section-d-question-container'
+                    style={{ 
+                        display: 'flex', 
+                        flexDirection: 'column', 
+                        alignItems: 'flex-start',
+                        gap: '5px' 
+                    }}
+                >
+                    <div>
+                        <span className='question-text-d'>
+                            Gewähren Sie Angehörigen Bar- oder Naturalunterhalt?{' '}
+                            <span style={{ color: 'red' }}>*</span>
+                        </span>
+                        <br/>
+                        <span className='subtext-d'>(z. B. Kinder, Ehegatte, Eltern)</span>
+                    </div>
+
+                    {}
+                    <div style={{ 
+                        marginTop: '10px',
+                        padding: '10px 12px',
+                        borderLeft: '3px solid var(--accent-color)',
+                        backgroundColor: 'rgba(59, 130, 246, 0.05)', 
+                        fontSize: '0.9rem',
+                        color: 'var(--text-secondary)',
+                        fontStyle: 'italic',
+                        borderRadius: '0 6px 6px 0',
+                        display: 'flex',
+                        gap: '8px',
+                        lineHeight: '1.4',
+                        maxWidth: '100%' 
+                    }}>
+                        <span style={{ color: 'var(--accent-color)', fontWeight: 'bold' }}>*</span>
+                        <span>
+                            Beispiel: Wenn Sie Kinder zuhause betreuen, gewähren Sie ihnen Naturalunterhalt.
+                        </span>
+                    </div>
+                    {}
                 </div>
 
+                {}
                 <div className='button-group mt-12'>
                     <button
-                        className={`btn-secondary ${data.hasDependents === 'yes' ? 'active-selection' : ''}`}
+                        className={`btn-secondary ${data.hasDependents === 'yes' ? 'active-ja' : ''}`}
                         onClick={() => handleMainOptionChange('yes')}
                     >
                         Ja
                     </button>
                     <button
-                        className={`btn-secondary ${data.hasDependents === 'no' ? 'active-selection' : ''}`}
+                        className={`btn-secondary ${data.hasDependents === 'no' ? 'active-nein' : ''}`}
                         onClick={() => handleMainOptionChange('no')}
                     >
                         Nein
@@ -95,6 +130,7 @@ const SectionD = ({ data, onChange, onBack, onNext }) => {
                 </div>
             </div>
 
+            {}
             {data.hasDependents === 'yes' && (
                 <motion.div
                     initial={{ opacity: 0 }}
@@ -116,13 +152,15 @@ const SectionD = ({ data, onChange, onBack, onNext }) => {
                             </div>
 
                             <div className='dependent-grid'>
+                                {}
                                 <div className='input-group'>
-                                    <label>
+                                    <label className='input-label'>
                                         Name, Vorname, Anschrift{' '}
                                         <span style={{ color: 'red' }}>*</span>
                                     </label>
                                     <input
                                         type='text'
+                                        className='modern-input' 
                                         placeholder='Mustermann, Max'
                                         value={person.name}
                                         onChange={e =>
@@ -131,8 +169,9 @@ const SectionD = ({ data, onChange, onBack, onNext }) => {
                                     />
                                 </div>
 
+                                {}
                                 <div className='input-group'>
-                                    <label>Geburtsdatum</label>
+                                    <label className='input-label'>Geburtsdatum</label>
                                     <DateInput
                                         value={person.birthday}
                                         onChange={val => updateDependent(index, 'birthday', val)}
@@ -140,13 +179,15 @@ const SectionD = ({ data, onChange, onBack, onNext }) => {
                                     />
                                 </div>
 
+                                {}
                                 <div className='input-group'>
-                                    <label>
+                                    <label className='input-label'>
                                         Verhältnis (z.B. Kind){' '}
                                         <span style={{ color: 'red' }}>*</span>
                                     </label>
                                     <input
                                         type='text'
+                                        className='modern-input'
                                         placeholder='Kind, Ehegatte...'
                                         value={person.relationship}
                                         onChange={e =>
@@ -155,20 +196,25 @@ const SectionD = ({ data, onChange, onBack, onNext }) => {
                                     />
                                 </div>
 
+                                {}
                                 <div className='input-group'>
-                                    <label>Monatsbetrag (falls Zahlung)</label>
-                                    <input
-                                        type='text'
-                                        placeholder='€ monatlich'
-                                        value={person.monthlyAmount}
-                                        onChange={e =>
-                                            updateDependent(index, 'monthlyAmount', e.target.value)
-                                        }
-                                        style={{ color: '#3B82F6' }}
-                                    />
+                                    <label className='input-label'>Monatsbetrag (falls Zahlung)</label>
+                                    <div className="currency-input-wrapper">
+                                        <input
+                                            type='text'
+                                            className='modern-input'
+                                            placeholder='€ monatlich'
+                                            value={person.monthlyAmount}
+                                            onChange={e =>
+                                                updateDependent(index, 'monthlyAmount', e.target.value)
+                                            }
+                                            style={{ color: '#3B82F6', fontWeight: '500' }}
+                                        />
+                                    </div>
                                 </div>
                             </div>
 
+                            {}
                             <div
                                 style={{
                                     marginTop: '15px',
@@ -184,7 +230,7 @@ const SectionD = ({ data, onChange, onBack, onNext }) => {
                                 {}
                                 <div className='income-toggle-group'>
                                     <button
-                                        className={`btn-secondary ${person.hasOwnIncome === 'yes' ? 'active-selection' : ''}`}
+                                        className={`btn-secondary ${person.hasOwnIncome === 'yes' ? 'active-ja' : ''}`}
                                         onClick={() =>
                                             updateDependent(index, 'hasOwnIncome', 'yes')
                                         }
@@ -192,7 +238,7 @@ const SectionD = ({ data, onChange, onBack, onNext }) => {
                                         Ja
                                     </button>
                                     <button
-                                        className={`btn-secondary ${person.hasOwnIncome === 'no' ? 'active-selection' : ''}`}
+                                        className={`btn-secondary ${person.hasOwnIncome === 'no' ? 'active-nein' : ''}`}
                                         onClick={() =>
                                             updateDependent(index, 'hasOwnIncome', 'no')
                                         }
@@ -208,17 +254,14 @@ const SectionD = ({ data, onChange, onBack, onNext }) => {
                                         className='input-group'
                                         style={{ marginTop: '10px' }}
                                     >
-                                        <label>Haben Sie Nettoeinnahmen?</label>
+                                        <label className='input-label'>Haben Sie Nettoeinnahmen?</label>
                                         <input
                                             type='text'
+                                            className='brutto-input'
                                             placeholder='Betrag (netto) €'
                                             style={{
-                                                width: '100%',
-                                                padding: '10px',
                                                 color: '#3B82F6',
                                                 fontWeight: 'bold',
-                                                border: '1px solid #3b82f6',
-                                                borderRadius: '6px'
                                             }}
                                             value={person.incomeAmount}
                                             onChange={e =>
@@ -231,6 +274,7 @@ const SectionD = ({ data, onChange, onBack, onNext }) => {
                         </div>
                     ))}
 
+                    {}
                     {data.dependents.length >= 5 && (
                         <p
                             style={{
@@ -245,6 +289,7 @@ const SectionD = ({ data, onChange, onBack, onNext }) => {
                         </p>
                     )}
 
+                    {}
                     {data.dependents.length < 5 && (
                         <button className='add-btn' onClick={addDependent}>
                             + Weitere Person hinzufügen
@@ -253,12 +298,12 @@ const SectionD = ({ data, onChange, onBack, onNext }) => {
                 </motion.div>
             )}
 
-            <div className='button-group mt-40'>
-                <button className='btn-secondary' onClick={onBack}>
+            <div className='navigation-footer'>
+                <button className='btn-secondary-action' onClick={onBack}>
                     Zurück
                 </button>
                 <button
-                    className='btn-primary'
+                    className='btn-primary-action'
                     onClick={onNext}
                     disabled={!isStepValid()}
                     style={{ background: isStepValid() ? 'var(--accent-color)' : '#ccc' }}

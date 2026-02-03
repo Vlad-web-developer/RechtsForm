@@ -114,7 +114,7 @@ textarea:focus, input:focus {
 .button-group {
   display: flex;
   gap: 15px;
-  margin-top: 30px;
+  margin-top: 10px;
 }
 
 .btn-primary {
@@ -294,5 +294,11 @@ textarea:focus, input:focus {
   
   .PhoneInputCountry {
     margin-right: 8px;
+  }
+  .logo {
+    font-size: 1.2rem;
+  }
+  .main-header{
+    padding: 10px 20px;
   }
 }
