@@ -1,5 +1,3 @@
-
-
 export const incomeMap = {
   nichtselbstaendig: { 
     search: 'durch nichtselbständige Arbeit',

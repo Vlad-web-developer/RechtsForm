@@ -31,7 +31,6 @@
 
 
 .btn-toggle-i.active-yes {
-  background: rgba(34, 197, 94, 0.15) !important;
   border-color: #22c55e !important;
   color: #22c55e !important;
   box-shadow: 0 0 10px rgba(34, 197, 94, 0.2);
@@ -39,7 +38,6 @@
 
 
 .btn-toggle-i.active-no {
-  background: rgba(59, 130, 246, 0.1) !important; 
   border-color: #3b82f6 !important;               
   color: #3b82f6 !important;                      
   font-weight: 700;
@@ -137,5 +135,77 @@
   .money-row {
     grid-template-columns: 1fr; 
     gap: 15px;
+  }
+}
+
+.section-title, 
+.question-text, 
+.info-text-content p {
+  hyphens: auto; 
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.toggle-container {
+  display: flex;
+  gap: 10px; 
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+@media (max-width: 600px) {
+  .section-card {
+    padding: 15px !important;
+  }
+
+  .section-title {
+    font-size: 1.25rem !important;
+    line-height: 1.2;
+  }
+
+  .obligation-card {
+    padding: 15px;
+    margin-left: -5px;  
+    margin-right: -5px;
+  }
+
+  .toggle-container {
+    flex-direction: row; 
+    gap: 8px;
+  }
+
+  .btn-toggle-i {
+    font-size: 0.9rem;
+    padding: 10px 5px;
+  }
+
+  .info-box-alert, .info-text-content {
+    padding: 10px !important;
+    gap: 8px !important;
+  }
+
+  .info-text-content p {
+    font-size: 0.85rem !important; 
+    line-height: 1.3;
+  }
+
+  .money-row {
+    grid-template-columns: 1fr; 
+    gap: 10px;
+  }
+  
+  .input-label {
+    font-size: 0.75rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .section-title {
+    font-size: 1.1rem !important;
+  }
+  
+  .btn-toggle-i {
+    gap: 4px;
+    font-size: 0.85rem;
   }
 }

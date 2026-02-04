@@ -8,7 +8,6 @@ import {
   housingMap, 
   obligationsMap, 
   specialLoadsMap,
-  declarationMap 
 } from './pdfMappings';
 
 export const fillPersonalData = (form, sectionA) => {
@@ -265,12 +264,4 @@ export const fillSpecialLoadsData = (form, sectionJ) => {
       setFieldDirect(form, mapping.amount, item.amount);
     }
   });
-};
-
-export const fillDeclarationData = (form, sectionK) => {
-  if (!sectionK) return;
-
-  const locationDateStr = `${sectionK.location}, ${sectionK.date}`;
-  
-  setFieldDirect(form, declarationMap.locationDate, locationDateStr);
 };

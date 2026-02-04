@@ -118,13 +118,13 @@ const SectionG = ({ data, onChange, onBack, onNext }) => {
                             <div className='asset-controls'>
                                 {}
                                 <button
-                                    className={`btn-toggle ${itemData.has === 'yes' ? 'active-ja' : ''}`}
+                                    className={`btn-toggle ${itemData.has === 'yes' ? 'active-yes' : ''}`}
                                     onClick={() => handleToggle(cat.key, 'yes')}
                                 >
                                     Ja
                                 </button>
                                 <button
-                                    className={`btn-toggle ${itemData.has === 'no' ? 'active-nein' : ''}`}
+                                    className={`btn-toggle ${itemData.has === 'no' ? 'active-no' : ''}`}
                                     onClick={() => handleToggle(cat.key, 'no')}
                                 >
                                     Nein

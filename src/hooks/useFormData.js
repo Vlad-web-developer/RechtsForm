@@ -20,9 +20,9 @@ const INITIAL_DATA = {
 		hasMaintenanceClaims: null,
 		maintenancePersonDetails: '',
 	},
-	sectionD: {
-		hasDependents: null,
-		dependents: [],
+	sectionD: { 
+		hasDependents: null, 
+		dependents: [] 
 	},
 	sectionE: {
 		receivesSocialAssistanceSGBXII: null,
@@ -175,20 +175,20 @@ export const useFormData = () => {
 				}
 
 				return {
-					...INITIAL_DATA,
-					...parsed,
-					sectionA: { ...INITIAL_DATA.sectionA, ...parsed.sectionA },
-					sectionB: { ...INITIAL_DATA.sectionB, ...parsed.sectionB },
-					sectionC: { ...INITIAL_DATA.sectionC, ...parsed.sectionC },
-					sectionD: { ...INITIAL_DATA.sectionD, ...parsed.sectionD },
-					sectionE: mergedSectionE,
-					sectionF: mergedSectionF,
-					sectionG: { ...INITIAL_DATA.sectionG, ...parsed.sectionG },
-					sectionH: mergedSectionH,
-          sectionI: { ...INITIAL_DATA.sectionI, ...parsed.sectionI },
-          sectionJ: { ...INITIAL_DATA.sectionJ, ...parsed.sectionJ },
-          sectionK: { ...INITIAL_DATA.sectionK, ...parsed.sectionK },
-				}
+    ...INITIAL_DATA,
+    ...parsed,
+    sectionA: { ...INITIAL_DATA.sectionA, ...(parsed.sectionA || {}) },
+    sectionB: { ...INITIAL_DATA.sectionB, ...(parsed.sectionB || {}) },
+    sectionC: { ...INITIAL_DATA.sectionC, ...(parsed.sectionC || {}) },
+    sectionD: { ...INITIAL_DATA.sectionD, ...(parsed.sectionD || {}) }, 
+    sectionE: mergedSectionE,
+    sectionF: mergedSectionF,
+    sectionG: { ...INITIAL_DATA.sectionG, ...(parsed.sectionG || {}) },
+    sectionH: mergedSectionH,
+    sectionI: { ...INITIAL_DATA.sectionI, ...(parsed.sectionI || {}) },
+    sectionJ: { ...INITIAL_DATA.sectionJ, ...(parsed.sectionJ || {}) },
+    sectionK: { ...INITIAL_DATA.sectionK, ...(parsed.sectionK || {}) },
+}
 			} catch (e) {
 				console.error('Ошибка парсинга данных, сброс формы', e)
 				return INITIAL_DATA

@@ -49,13 +49,13 @@ const SectionB = ({ data, onChange, onBack, onNext }) => {
                 {}
                 <div className='button-group button-group-c mt-12'>
                     <button
-                        className={`btn-secondary ${data.hasInsurance === 'yes' ? 'active-ja' : ''}`}
+                        className={`btn-secondary ${data.hasInsurance === 'yes' ? 'active-yes' : ''}`}
                         onClick={() => handleOptionChange('hasInsurance', 'yes')}
                     >
                         Ja
                     </button>
                     <button
-                        className={`btn-secondary ${data.hasInsurance === 'no' ? 'active-nein' : ''}`}
+                        className={`btn-secondary ${data.hasInsurance === 'no' ? 'active-no' : ''}`}
                         onClick={() => handleOptionChange('hasInsurance', 'no')}
                     >
                         Nein
@@ -89,7 +89,7 @@ const SectionB = ({ data, onChange, onBack, onNext }) => {
                         <input
                             type="text"
                             className='modern-input'
-                            placeholder='z.B. ARAG Rechtsschutz, übernimmt 50% der Kosten...'
+                            placeholder='z.B. ARAG Rechtsschutz'
                             value={data.insuranceDetails}
                             onChange={e => onChange('insuranceDetails', e.target.value)}
                             style={{ width: '100%' }}
@@ -117,13 +117,13 @@ const SectionB = ({ data, onChange, onBack, onNext }) => {
                     {}
                     <div className='button-group button-group-c mt-12'>
                         <button
-                            className={`btn-secondary ${data.hasPotentialInsurance === 'yes' ? 'active-ja' : ''}`}
+                            className={`btn-secondary ${data.hasPotentialInsurance === 'yes' ? 'active-yes' : ''}`}
                             onClick={() => handleOptionChange('hasPotentialInsurance', 'yes')}
                         >
                             Ja
                         </button>
                         <button
-                            className={`btn-secondary ${data.hasPotentialInsurance === 'no' ? 'active-nein' : ''}`}
+                            className={`btn-secondary ${data.hasPotentialInsurance === 'no' ? 'active-no' : ''}`}
                             onClick={() => handleOptionChange('hasPotentialInsurance', 'no')}
                         >
                             Nein

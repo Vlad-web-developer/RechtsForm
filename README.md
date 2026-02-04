@@ -162,6 +162,35 @@ Dies ist die komplexeste Sektion. Sie enthält einen **internen Sub-Wizard** (St
 - Unterscheidet dynamisch zwischen **Mieter** und **Eigentümer**.
 - Zeigt je nach Auswahl (`housingType`) komplett unterschiedliche Eingabefelder an (Kaltmiete vs. Zinsen/Tilgung).
 
+### Sektion L (Belege & Anhänge) [NEU]
+
+Eine neue Komponente (`src/components/SectionL.jsx`) ermöglicht das Hinzufügen von Nachweisen.
+
+- **Intelligente Anforderungslogik**: Das System prüft basierend auf den vorherigen Eingaben (z.B. "Haben Sie Kinder?", "Beziehen Sie SGB XII?"), welche Belege _zwingend_ erforderlich sind.
+- **Drag & Drop**: Intuitive Oberfläche zum Hochladen von Dateien.
+- **Client-Side Merging**: Hochgeladene Bilder (JPG/PNG) und PDFs werden mittels `pdf-lib` direkt im Browser in das finale Antrags-PDF eingebettet. Es findet kein Server-Upload statt.
+
+---
+
+## Datenschutz & Sicherheit
+
+Sicherheit und Datenschutz stehen im Kern der Architektur. Da es sich um sensible persönliche und wirtschaftliche Daten handelt, wurde die App nach dem **Privacy-by-Design** Prinzip entwickelt.
+
+### 1. Zero-Knowledge / Local-Only
+
+- **Kein Backend**: Es gibt keinen Server, der Formulardaten empfängt oder speichert. Die gesamte Verarbeitung findet im Browser des Nutzers statt.
+- **Lokale PDF-Generierung**: Das PDF wird lokal generiert. Selbst die angehängten Belege (Gehaltsnachweise, Mietverträge) verlassen nie das Gerät des Nutzers.
+
+### 2. Daten-Sparsamkeit
+
+- **Auto-Clear**: Sobald das PDF erfolgreich generiert und heruntergeladen wurde, initiiert die App einen "Deep Clean". Alle Formulardaten werden sofort aus dem `localStorage` und dem Arbeitsspeicher gelöscht.
+- **Persistenz nur für UX**: Die Zwischenspeicherung im `localStorage` dient ausschließlich der Nutzerfreundlichkeit (Verhindern von Datenverlust bei versehentlichem Neuladen) und ist temporär.
+
+### 3. Transparenz
+
+- Vor Beginn wird der Nutzer explizit auf die lokale Verarbeitung hingewiesen.
+- In Sektion L wird durch visuelle Indikatoren (Privacy Shield Icon) erneut bestätigt, dass kein Upload stattfindet.
+
 ---
 
 ## PDF-Generierung (Mapping)
@@ -177,10 +206,11 @@ Die PDF-Erstellung erfolgt im Browser (Client-Side) ohne Server-Backend.
 3.  **Mapping ausführen**:
     - `src/utils/pdf/pdfMappings.js`: Definiert Konstanten, welches Datenfeld welchem PDF-Feldnamen entspricht.
     - `src/utils/pdf/pdfFillers.js`: Enthält Funktionen (`fillIncomeData`, `fillAssetsData` etc.), die die Logik zur Befüllung implementieren.
-4.  **Komplexe Logik**:
-    - **Checkboxen**: Werden basierend auf 'yes'/'no' Werten gesetzt.
-    - **Listen**: Arrays (z.B. Angehörige) werden iteriert und füllen dynamisch nummerierte Felder im PDF (`Angehöriger Nr. 1`, `Angehöriger Nr. 2`).
-    - **Partner**: Wenn Partnerdaten vorhanden sind, werden die entsprechenden "Ehegatte"-Spalten im PDF gefüllt.
+4.  **Anhänge verarbeiten (Neu)**:
+    - Iteriert über alle in Sektion L hochgeladenen Dateien.
+    - **PDFs**: Werden Seite für Seite an das Hauptdokument angehängt.
+    - **Bilder**: Werden automatisch skaliert und zentriert auf neuen Seiten platziert.
+5.  **Download**: Der Blob wird direkt zum Download angeboten.
 
 ---
 
@@ -193,7 +223,7 @@ Das Projekt verwendet natives CSS in einer modularen Struktur.
 - **Responsivität**:
   - `src/css/phone.css`: Spezielle Anpassungen für mobile Geräte.
   - Media Queries sorgen für Layout-Anpassungen (Grid zu Stack).
-- **Themes**: Ein `ThemeToggle` erlaubt Umschalten zwischen Themes (Implementation prüft `body` Klassen oder CSS Variablen).
+- **Themes**: Ein `ThemeToggle` erlaubt Umschalten zwischen Themes (Startet im Dark Mode mit Neon-Akzenten).
 
 ---
 
@@ -239,8 +269,8 @@ src/
 │   ├── common/             # Wiederverwendbare UI-Elemente
 │   │   ├── DateInput.jsx   # Datumswähler Wrapper
 │   │   └── NumberInput.jsx # Input für Währungsbeträge
-│   ├── SectionA.jsx bis SectionK.jsx  # Die einzelnen Formularschritte
-│   ├── FormIntro.jsx       # Startseite
+│   ├── SectionA.jsx bis SectionL.jsx  # Die einzelnen Formularschritte (inkl. Upload)
+│   ├── FormIntro.jsx       # Startseite mit Datenschutz-Consent
 │   ├── ProgressBar.jsx     # Fortschrittsanzeige
 │   └── ThemeToggle.jsx     # Dark/Light Mode Switch
 ├── css/
@@ -253,7 +283,7 @@ src/
 │   ├── useFormProgress.js  # Fortschrittsberechnung
 │   └── useSectionValidation.js # Validierungslogik
 ├── utils/
-│   ├── pdfGenerator.js     # Hauptfunktion PDF-Download
+│   ├── pdfGenerator.js     # Hauptfunktion PDF-Erstellung & File Merging
 │   └── pdf/
 │       ├── pdfFillers.js   # Logik zum Befüllen der PDF-Felder
 │       ├── pdfHelpers.js   # Helper (SetCheckbox etc.)

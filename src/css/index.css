@@ -142,3 +142,16 @@ textarea.std-input {
 .date-input-wrapper input {
   padding-right: 40px; 
 }
+
+#intro-consent {
+  width: 20px !important;
+  min-width: 20px !important;
+  max-width: 20px !important;
+  height: 20px !important;
+  padding: 0 !important;
+  flex-shrink: 0 !important;
+  flex-grow: 0 !important;
+  margin-top: 4px;
+  cursor: pointer;
+  box-shadow: none !important;
+}

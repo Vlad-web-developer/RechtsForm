@@ -39,13 +39,13 @@ const SectionC = ({ data, onChange, onBack, onNext }) => {
 
 <div className='button-group button-group-c mt-12'>
     <button
-        className={`btn-secondary ${data.hasMaintenanceClaims === 'yes' ? 'active-ja' : ''}`}
+        className={`btn-secondary ${data.hasMaintenanceClaims === 'yes' ? 'active-yes' : ''}`}
         onClick={() => handleOptionChange('yes')}
     >
         Ja
     </button>
     <button
-        className={`btn-secondary ${data.hasMaintenanceClaims === 'no' ? 'active-nein' : ''}`}
+        className={`btn-secondary ${data.hasMaintenanceClaims === 'no' ? 'active-no' : ''}`}
         onClick={() => handleOptionChange('no')}
     >
         Nein
