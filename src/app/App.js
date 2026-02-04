@@ -47,7 +47,7 @@ function App() {
   }
 
   const handleRestart = () => {
-     window.location.reload(); 
+     setStep(0); 
   };
 
   return (
