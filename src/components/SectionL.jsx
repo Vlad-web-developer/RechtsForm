@@ -2,21 +2,21 @@ import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Shield, Upload, FileCheck, X, AlertCircle, FileWarning } from 'lucide-react';
 
-// WICHTIG: Props 'files' und 'setFiles' werden von App.js empfangen
+
 const SectionL = ({ formData, onBack, onNext, files, setFiles }) => {
     
     const [errors, setErrors] = useState({}); 
     const [draggingId, setDraggingId] = useState(null);
     const fileInputRefs = useRef({});
 
-    // === KONSTANTEN ===
+    
     const MAX_FILE_SIZE_MB = 10;
     const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
     const ALLOWED_TYPES = ['application/pdf', 'image/jpeg', 'image/jpg', 'image/png'];
 
     const isYes = (val) => val === 'yes' || val === 'ja' || val === true;
 
-    // === KORRIGIERTE LOGIK ===
+    
     const getRequiredDocs = () => {
         const docs = [];
         
@@ -31,67 +31,67 @@ const SectionL = ({ formData, onBack, onNext, files, setFiles }) => {
 
         const isSGBXII = isYes(secE.receivesSocialAssistanceSGBXII);
 
-        // --- TEIL 1: IMMER ERFORDERLICH (unabhängig von SGB XII) ---
         
-        // Abschnitt B: Rechtsschutz
+        
+        
         if (isYes(secB.hasInsurance)) {
             docs.push({ id: 'insurance_policy', label: 'Rechtsschutzversicherung', desc: 'Police oder Deckungsablehnung.' });
         }
 
-        // Abschnitt C: Unterhaltsansprüche
+        
         if (isYes(secC.hasMaintenanceClaims)) {
             docs.push({ id: 'maintenance_claims', label: 'Unterhaltsbelege', desc: 'Titel oder Schriftverkehr.' });
         }
 
-        // Abschnitt D: Angehörige (Das hat gefehlt!)
+        
         if (isYes(secD.hasDependents)) {
             docs.push({ id: 'dependents_proof', label: 'Nachweise Angehörige', desc: 'Geburtsurkunden, Unterhaltsnachweise.' });
         }
 
-        // --- TEIL 2: SGB XII ODER FINANZEN ---
+        
 
         if (isSGBXII) {
-            // Wenn SGB XII: Wir brauchen den Bescheid, aber KEINE Einzelnachweise für E-J
+            
             docs.push({ 
                 id: 'sgb12', 
                 label: 'Aktueller Bewilligungsbescheid (SGB XII)', 
                 desc: 'Vollständiger Bescheid inkl. Berechnungsbogen.' 
             });
             
-            // HIER ENDE FÜR SGB-EMPFÄNGER (Die Docs aus Teil 1 bleiben aber erhalten!)
+            
             return docs;
         }
 
-        // --- TEIL 3: NUR WENN KEIN SGB XII (Abschnitte E-J) ---
+        
 
-        // Abschnitt E: Einkommen
+        
         const self = secE.self || {};
         if (isYes(self.nichtselbstaendig?.has)) docs.push({ id: 'salary_self', label: 'Lohnabrechnungen', desc: 'Letzte 3 Monate.' });
         if (isYes(self.selbstaendig?.has)) docs.push({ id: 'tax_self', label: 'Steuerbescheid / BWA', desc: 'Aktuellster Bescheid.' });
         if (isYes(self.arbeitslosengeld?.has) || isYes(self.buergergeld?.has)) docs.push({ id: 'alg_self', label: 'Bescheid ALG I / Bürgergeld', desc: 'Aktueller Bescheid.' });
         if (isYes(self.rente?.has)) docs.push({ id: 'pension_self', label: 'Rentenbescheid', desc: 'Aktueller Rentenbescheid.' });
 
-        // Partner Einkommen
+        
         if (isYes(secE.hasPartner)) {
             const partner = secE.partner || {};
             if (isYes(partner.nichtselbstaendig?.has)) docs.push({ id: 'salary_partner', label: 'Lohnabrechnungen (Partner)', desc: 'Letzte 3 Monate.' });
             if (isYes(partner.selbstaendig?.has) || isYes(partner.rente?.has)) docs.push({ id: 'income_partner', label: 'Einkommensbelege (Partner)', desc: 'Steuerbescheid/Rentenbescheid.' });
         }
 
-        // Abschnitt E5: Keine Einkünfte
+        
         const allNoIncome = Object.values(self).every(cat => {
              if (cat && typeof cat === 'object' && 'has' in cat) return cat.has === 'no' || cat.has === 'nein';
              return true; 
         });
         if (allNoIncome) docs.push({ id: 'e5_explain', label: 'Erklärung zum Lebensunterhalt', desc: 'Schriftliche Erklärung (E 5).' });
 
-        // Abschnitt G: Vermögen
+        
         docs.push({ id: 'bank_statements', label: 'Kontoauszüge', desc: 'Lückenlos, letzte 3 Monate.' });
         if (isYes(secG.realEstate?.has)) docs.push({ id: 'real_estate', label: 'Grundbuchauszug', desc: 'Aktueller Auszug.' });
         if (isYes(secG.vehicles?.has)) docs.push({ id: 'vehicle_doc', label: 'Fahrzeugschein', desc: 'Zulassungsbescheinigung Teil I.' });
         if (isYes(secG.lifeInsurance?.has)) docs.push({ id: 'life_insurance', label: 'Lebensversicherung', desc: 'Rückkaufswert.' });
 
-        // Abschnitt H: Wohnen
+        
         if (secH.housingType === 'tenant') {
             docs.push({ id: 'rent_contract', label: 'Mietvertrag', desc: 'Aktueller Vertrag & Änderungsschreiben.' });
             docs.push({ id: 'heating_bill', label: 'Nebenkostenabrechnung', desc: 'Letzte Abrechnung.' });
@@ -100,20 +100,20 @@ const SectionL = ({ formData, onBack, onNext, files, setFiles }) => {
             docs.push({ id: 'housing_costs', label: 'Wohnnebenkosten', desc: 'Grundsteuer, Wasser, Heizung.' });
         }
 
-        // Abschnitt I: Schulden
+        
         if (isYes(secI.hasObligations)) docs.push({ id: 'loans_general', label: 'Kreditverträge', desc: 'Verträge & Zahlungsnachweise.' });
         
-        // Abschnitt J: Besondere Belastungen
+        
         if (isYes(secJ.hasSpecialLoads)) docs.push({ id: 'special_loads', label: 'Besondere Belastungen', desc: 'Atteste, Rechnungen.' });
 
         return docs;
     };
 
     const requiredDocs = getRequiredDocs();
-    const missingDocsCount = requiredDocs.length - Object.keys(files || {}).length; // Safe access
+    const missingDocsCount = requiredDocs.length - Object.keys(files || {}).length; 
     const isComplete = missingDocsCount === 0;
 
-    // === VALIDIERUNG & UPLOAD ===
+    
     const validateFile = (file) => {
         if (!file) return 'Keine Datei ausgewählt.';
         if (!ALLOWED_TYPES.includes(file.type)) return 'Ungültiges Format. Erlaubt: PDF, JPG, PNG.';
@@ -137,7 +137,7 @@ const SectionL = ({ formData, onBack, onNext, files, setFiles }) => {
                 return;
             }
 
-            // Update in App.js State
+            
             setFiles(prev => ({ ...prev, [docId]: file }));
         }
     };

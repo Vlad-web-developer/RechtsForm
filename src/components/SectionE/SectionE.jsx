@@ -110,23 +110,23 @@ const SectionE = ({ data, onChange, onBack, onNext, setStep }) => {
 
 {allNo && personType === 'self' && (
     <div className='income-card' style={{ 
-        border: '1px solid #ef4444',            /* Стандартный красный (хорошо виден везде) */
-        background: 'rgba(239, 68, 68, 0.1)',   /* Прозрачный красный (не перекрывает темный фон) */
+        border: '1px solid #ef4444',            
+        background: 'rgba(239, 68, 68, 0.1)',   
         padding: '20px', 
         marginTop: '20px',
-        borderRadius: '8px'                     /* Скругление углов для красоты */
+        borderRadius: '8px'                     
     }}>
         <label style={{ 
-            color: '#ef4444',                   /* Тот же красный, что и граница */
+            color: '#ef4444',                   
             fontWeight: 'bold',
-            display: 'block'                    /* Чтобы заголовок был на своей строке */
+            display: 'block'                    
         }}>
             5. Ergänzende Angaben bei fehlenden Einnahmen
         </label>
         
         <p style={{ 
             fontSize: '0.9rem', 
-            color: 'var(--text-primary)',       /* ВАЖНО: Этот цвет сам станет белым в темной теме */
+            color: 'var(--text-primary)',       
             marginTop: '10px',
             opacity: 0.9 
         }}>
