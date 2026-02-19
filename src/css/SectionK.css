@@ -1,0 +1,98 @@
+.important-box {
+  background-color: #fff3cd;
+  color: #856404;
+  border: 1px solid #ffeeba;
+  padding: 12px 15px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  font-size: 0.95rem;
+}
+
+.declaration-text {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin: 20px 0;
+  padding: 15px;
+  background-color: #f8f9fa; 
+  border-radius: 8px;
+  border: 1px solid #dee2e6;
+  color: #212529; 
+  text-align: justify;
+}
+
+.declaration-text p {
+  margin-bottom: 10px;
+}
+
+.declaration-text p:last-child {
+  margin-bottom: 0;
+}
+
+[data-theme="dark"] .important-box {
+  background-color: #3e320a; 
+  color: #ffeeba;           
+  border-color: #665c26;
+}
+
+[data-theme="dark"] .declaration-text {
+  background-color: #2d3748; 
+  color: #e2e8f0;          
+  border-color: #4a5568;
+}
+
+.signature-container {
+    background-color: #ffffff; /* Обязательно белый фон, так как в PDF черная подпись на темном фоне не видна */
+    overflow: hidden;
+    transition: border-color 0.2s ease;
+}
+
+.signature-container:hover {
+    border-color: var(--accent-color);
+}
+
+/* Адаптивность для мобилок */
+@media (max-width: 600px) {
+    .sigCanvas {
+        height: 150px !important;
+    }
+}
+
+/* Стили для кастомного чекбокса (если не прописаны) */
+.radio-card-option {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    border: 1px solid var(--line-color);
+    border-radius: 10px;
+    background: rgba(59, 130, 246, 0.05);
+}
+
+.radio-card-option.selected {
+    border-color: #3b82f6;
+    background: rgba(59, 130, 246, 0.1);
+}
+
+.toggle-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: 1px solid var(--line-color);
+    background: var(--card-bg);
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.toggle-btn.active {
+    background: var(--accent-color);
+    color: white;
+    border-color: var(--accent-color);
+}
+
+.toggle-btn:hover:not(.active) {
+    background: var(--btn-secondary-hover);
+}

@@ -1,0 +1,398 @@
+/* SectionL.css */
+
+.section-l-container {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+}
+
+.privacy-shield-box {
+	display: flex;
+	gap: 15px;
+	padding: 15px;
+	background: rgba(34, 197, 94, 0.08);
+	border: 1px solid #22c55e;
+	border-radius: 12px;
+	margin-bottom: 25px;
+	align-items: flex-start;
+}
+
+.upload-card {
+	background: var(--card-bg);
+	border: 1px solid var(--card-border);
+	border-radius: 12px;
+	padding: 20px;
+	transition: all 0.2s ease;
+	position: relative;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02);
+	cursor: pointer;
+	margin-top: 10px;
+}
+
+.upload-card:hover {
+	border-color: var(--accent-color);
+	box-shadow: 0 4px 12px rgba(59, 130, 246, 0.1);
+	transform: translateY(-1px);
+}
+
+.upload-card.dragging {
+	border-color: var(--accent-color);
+	background: rgba(59, 130, 246, 0.05);
+	transform: scale(1.01);
+}
+
+.upload-card.uploaded {
+	border-color: #22c55e;
+	background: rgba(34, 197, 94, 0.04);
+}
+
+.upload-card.error {
+	border-color: #ef4444;
+	background: rgba(239, 68, 68, 0.04);
+	animation: shake 0.3s ease-in-out;
+}
+
+.upload-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 8px;
+	font-weight: 600;
+	color: var(--text-primary);
+	font-size: 0.95rem;
+}
+
+.upload-status-badge {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	font-size: 0.8rem;
+	font-weight: 500;
+	padding: 2px 8px;
+	border-radius: 99px;
+}
+
+.status-ready {
+	color: #15803d;
+	background: #dcfce7;
+}
+
+.upload-content {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	padding: 10px 0;
+	text-align: center;
+}
+
+.upload-icon-wrapper {
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	background: var(--bg-color);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-bottom: 5px;
+}
+
+.upload-text-main {
+	font-size: 0.9rem;
+	font-weight: 500;
+	color: var(--text-primary);
+}
+
+.upload-text-sub {
+	font-size: 0.8rem;
+	color: var(--text-secondary);
+}
+
+/* File Preview State */
+.file-preview {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+}
+
+.file-info {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+}
+
+.file-icon-box {
+	width: 40px;
+	height: 40px;
+	border-radius: 8px;
+	background: #dcfce7;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: #15803d;
+}
+
+.file-details {
+	display: flex;
+	flex-direction: column;
+}
+
+.file-name {
+	font-size: 0.9rem;
+	font-weight: 500;
+	color: var(--text-primary);
+	word-break: break-all;
+}
+
+.file-size {
+	font-size: 0.75rem;
+	color: var(--text-secondary);
+}
+
+.remove-btn {
+	width: 36px;
+	height: 36px;
+	border-radius: 8px; /* Slightly rounded square, majestic */
+	border: 1px solid rgba(239, 68, 68, 0.2);
+	background: rgba(239, 68, 68, 0.05);
+	color: #ef4444;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.remove-btn:hover {
+	background: #fee2e2;
+	border-color: #fca5a5;
+	transform: translateY(-1px);
+	box-shadow: 0 2px 4px rgba(239, 68, 68, 0.1);
+}
+
+.remove-btn:active {
+	transform: translateY(0);
+	background: #fecaca;
+}
+
+.missing-alert {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	margin-top: 25px;
+	padding: 15px;
+	background: #fef2f2;
+	border: 1px solid #fee2e2;
+	border-radius: 8px;
+	color: #991b1b;
+	font-size: 0.9rem;
+}
+
+.status-ready {
+    color: #4ade80; /* Яркий зеленый для темной темы */
+    background: rgba(74, 222, 128, 0.15); /* Полупрозрачный фон */
+    border: 1px solid rgba(74, 222, 128, 0.3);
+    padding: 4px 10px;
+    font-weight: 600;
+}
+
+/* Измененный блок иконки файла (зеленый квадрат слева) */
+.file-icon-box {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    background: rgba(74, 222, 128, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #4ade80;
+    border: 1px solid rgba(74, 222, 128, 0.2);
+}
+
+/* Мощная корзина с высокой контрастностью */
+.remove-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    border: 1px solid rgba(239, 68, 68, 0.4); /* Более видимая рамка */
+    background: rgba(239, 68, 68, 0.15); /* Заметный красный фон */
+    color: #ff6b6b; /* Яркий красный цвет иконки */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 10;
+}
+
+.remove-btn:hover {
+    background: #ef4444; /* Полностью красный при наведении */
+    color: white; /* Белая иконка для максимального контраста */
+    border-color: #ef4444;
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+.remove-btn:active {
+    transform: scale(0.95);
+}
+
+/* Улучшение карточки при загрузке */
+.upload-card.uploaded {
+    border-color: #22c55e;
+    background: rgba(34, 197, 94, 0.08); /* Чуть насыщеннее */
+    box-shadow: 0 0 15px rgba(34, 197, 94, 0.05);
+}
+
+/* Адаптация бейджа для светлой темы (если используется) */
+[data-theme='light'] .status-ready {
+    color: #15803d;
+    background: #dcfce7;
+    border: 1px solid #bbf7d0;
+}
+
+.upload-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* Центрирует бейдж по вертикали относительно заголовка */
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.upload-status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.75rem; /* Чуть меньше текст для аккуратности */
+    font-weight: 600;
+    padding: 4px 12px; /* Фиксированные отступы вместо круга */
+    border-radius: 99px; /* Форма пилюли */
+    white-space: nowrap; /* Запрещает перенос "Bereit" на вторую строку */
+    flex-shrink: 0; /* Не дает бейджу сжиматься */
+}
+
+/* Яркий и четкий статус для темной темы */
+.status-ready {
+    color: #4ade80; 
+    background: rgba(74, 222, 128, 0.15);
+    border: 1px solid rgba(74, 222, 128, 0.4);
+}
+
+/* Контрастная корзина */
+.remove-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    /* Увеличиваем прозрачность фона и яркость рамки */
+    background: rgba(239, 68, 68, 0.2) !important; 
+    border: 1px solid rgba(239, 68, 68, 0.6) !important;
+    color: #ff6b6b !important; /* Ярко-красный цвет иконки */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.remove-btn:hover {
+    background: #ef4444 !important;
+    color: white !important;
+    border-color: #ef4444 !important;
+    box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
+}
+
+/* Иконка внутри карточки (зеленый листок) */
+.file-icon-box {
+    background: rgba(34, 197, 94, 0.15) !important;
+    border: 1px solid rgba(34, 197, 94, 0.3);
+    color: #4ade80 !important;
+}
+
+/* Обводка самой карточки при успешной загрузке */
+.upload-card.uploaded {
+    border-color: rgba(34, 197, 94, 0.5) !important;
+}
+
+/* Контейнер заголовка */
+.upload-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start; /* Выравнивание по верхнему краю для многострочного текста */
+    gap: 12px;
+    margin-bottom: 12px;
+    width: 100%;
+}
+
+/* Текст заголовка документа (слева) */
+.upload-header > span:first-child {
+    flex: 1;
+    min-width: 0;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    color: var(--text-primary);
+    white-space: normal;      /* РАЗРЕШАЕМ перенос строки */
+    word-wrap: break-word;    /* Перенос длинных слов */
+}
+
+/* Фиксированный бейдж "Bereit" (справа) */
+.upload-status-badge {
+    flex-shrink: 0;           /* Запрещаем сжиматься */
+    width: 85px;              /* ФИКСИРОВАННАЯ ширина блока */
+    height: 28px;             /* Фиксированная высота для стабильности */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;  /* Центровка текста внутри */
+    gap: 6px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    border-radius: 20px;
+    text-transform: none;
+}
+
+/* Цвета и контраст для статуса */
+.status-ready {
+    color: #4ade80 !important; 
+    background: rgba(74, 222, 128, 0.12) !important;
+    border: 1.5px solid rgba(74, 222, 128, 0.4) !important;
+}
+
+/* Контрастная корзина (удаление) */
+.remove-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: rgba(239, 68, 68, 0.15) !important;
+    border: 1px solid rgba(239, 68, 68, 0.5) !important;
+    color: #ff6b6b !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.remove-btn:hover {
+    background: #ef4444 !important;
+    color: #ffffff !important;
+    border-color: #ef4444 !important;
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+}
+
+.file-name {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    white-space: normal;      /* Разрешаем перенос имени файла, если оно очень длинное */
+    word-break: break-all;    /* Чтобы длинные тех-имена не вылезали за край */
+    line-height: 1.3;
+}
+
+.file-details {
+    display: flex;
+    flex-direction: column;
+    flex: 1;                 /* Растягиваем детали текста */
+    margin-right: 7px;      /* ОТСТУП ОТ МУСОРКИ (с запасом, больше 7px) */
+    min-width: 0;
+}

@@ -1,0 +1,134 @@
+.section-c-question-container {
+  display: flex;
+  flex-direction: row; 
+  justify-content: space-between; 
+  align-items: flex-start; 
+  gap: 20px; 
+  margin-bottom: 12px;
+}
+
+
+.active-no {
+  background-color: transparent !important; 
+  border: 2px solid #3b82f6 !important;    
+  color: #3b82f6 !important;               
+  font-weight: bold;
+  box-shadow: 0 0 10px rgba(59, 130, 246, 0.2); 
+}
+
+
+.active-yes {
+  background-color: transparent !important; 
+  border: 2px solid #10b981 !important;    
+  color: #10b981 !important;               
+  font-weight: bold;
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.2); 
+}
+
+
+.question-text {
+  flex: 2; 
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--text-primary);
+}
+
+.section-c-subtext {
+  flex: 1; 
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  font-style: italic;
+  line-height: 1.4;
+  text-align: right; 
+  margin-top: 4px; 
+}
+
+.warning-box-c {
+  background-color: rgba(245, 158, 11, 0.1); 
+  border-left: 4px solid #f59e0b;
+  padding: 12px 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  color: var(--text-primary);
+}
+
+.warning-icon {
+  font-size: 1.2rem;
+  min-width: 24px;
+}
+
+.warning-text {
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+.input-label-c {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+  display: block;
+  font-weight: 500;
+}
+
+.textarea-c {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--line-color);
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: inherit;
+  resize: vertical;
+  background-color: var(--input-bg);
+  color: var(--text-primary);
+  transition: border-color 0.2s;
+}
+
+.textarea-c:focus {
+  border-color: var(--accent-color);
+  outline: none;
+}
+
+@media (max-width: 768px) { 
+  
+  .section-c-question-container {
+    flex-direction: column; 
+    gap: 8px;
+  }
+
+  .question-text {
+    flex: 1;
+    font-size: 0.95rem;
+  }
+
+  .section-c-subtext {
+    flex: 1;
+    text-align: left; 
+    font-size: 0.85rem;
+    margin-top: 0;
+  }
+
+  .button-group-c {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 15px;
+    width: 100%;
+  }
+
+  .button-group-c button {
+    width: 100% !important;
+    margin: 0 !important;
+  }
+
+  .warning-box-c {
+    padding: 10px;
+  }
+  
+  .warning-text {
+    font-size: 0.8rem;
+  }
+}
+

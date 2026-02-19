@@ -1,0 +1,184 @@
+import { useEffect, useState } from 'react'
+
+const INITIAL_DATA = {
+    sectionA: {
+        fullName: '',
+        occupation: '',
+        birthday: '',
+        maritalStatus: '',
+        address: '',
+        phone: '',
+        legalRepresentative: '',
+    },
+    sectionB: {
+        hasInsurance: null,
+        insuranceDetails: '',
+        hasPotentialInsurance: null,
+        potentialInsuranceDetails: '',
+    },
+    sectionC: {
+        hasMaintenanceClaims: null,
+        maintenancePersonDetails: '',
+    },
+    sectionD: { 
+        hasDependents: null, 
+        dependents: [] 
+    },
+    sectionE: {
+        receivesSocialAssistanceSGBXII: null,
+        hasPartner: null,
+        // Оставляем структуру для 12 категорий
+        self: {
+            nichtselbstaendig: { has: null, brutto: '' },
+            selbstaendig: { has: null, brutto: '' },
+            vermietung: { has: null, brutto: '' },
+            kapital: { has: null, brutto: '' },
+            kindergeld: { has: null, brutto: '' },
+            wohngeld: { has: null, brutto: '' },
+            unterhalt: { has: null, brutto: '' },
+            rente: { has: null, brutto: '' },
+            arbeitslosengeld: { has: null, brutto: '' },
+            buergergeld: { has: null, brutto: '' },
+            krankengeld: { has: null, brutto: '' },
+            elterngeld: { has: null, brutto: '' },
+            sonstige: {
+                has: null,
+                items: [{ details: '', brutto: '' }],
+            },
+            noIncomeExplanation: '', // Поле для объяснения отсутствия дохода
+        },
+        partner: {
+            nichtselbstaendig: { has: null, brutto: '' },
+            selbstaendig: { has: null, brutto: '' },
+            vermietung: { has: null, brutto: '' },
+            kapital: { has: null, brutto: '' },
+            kindergeld: { has: null, brutto: '' },
+            wohngeld: { has: null, brutto: '' },
+            unterhalt: { has: null, brutto: '' },
+            rente: { has: null, brutto: '' },
+            arbeitslosengeld: { has: null, brutto: '' },
+            buergergeld: { has: null, brutto: '' },
+            krankengeld: { has: null, brutto: '' },
+            elterngeld: { has: null, brutto: '' },
+            sonstige: {
+                has: null,
+                items: [{ details: '', brutto: '' }],
+            },
+            noIncomeExplanation: '',
+        },
+    },
+    // Упрощенный раздел F (только Да/Нет)
+    sectionF: {
+        hasDeductions: null,
+    },
+    sectionG: {
+        bankAccounts: { has: null, description: '', value: '' },
+        realEstate: { has: null, description: '', value: '' },
+        vehicles: { has: null, description: '', value: '' },
+        cash: { has: null, description: '', value: '' },
+        lifeInsurance: { has: null, description: '', value: '' },
+        otherAssets: { has: null, description: '', value: '' },
+    },
+    sectionH: {
+        livingSpace: '',
+        numberOfRooms: '',
+        totalPeople: '',
+        housingType: '', // 'tenant' или 'owner'
+        rentCold: '',
+        heatingCosts: '',
+        otherCosts: '',
+        totalRent: '',
+        ownShareRent: '',
+        interestRepayment: '',
+        heatingCostsOwner: '',
+        otherCostsOwner: '',
+        totalCostOwner: '',
+        ownShareOwner: '',
+        loanDetails: '',
+        loans: [
+            { remainingDebt: '', monthlyPayment: '' },
+        ],
+    },
+    sectionI: {
+        hasObligations: null,
+        obligations: [
+            { description: '', remainingDebt: '', monthlyPayment: '', ownShare: '' }
+        ]
+    },
+    sectionJ: {
+        hasSpecialLoads: null, 
+        loads: [
+            { description: '', amount: '' }
+        ]
+    },
+    sectionK: {
+        signature: null, // Здесь будет храниться Base64 изображение подписи
+        confirmed: false,
+        date: new Date().toLocaleDateString('de-DE') 
+    }
+}
+
+export const useFormData = () => {
+    // Инициализация шага
+    const [step, setStep] = useState(() => {
+        const savedStep = localStorage.getItem('currentStep')
+        return savedStep ? parseInt(savedStep, 10) : 0
+    })
+
+    // Инициализация данных с глубоким мержем (чтобы при обновлении кода старые данные не ломали форму)
+    const [formData, setFormData] = useState(() => {
+        const savedData = localStorage.getItem('appFormData')
+        if (!savedData) return INITIAL_DATA
+
+        try {
+            const parsed = JSON.parse(savedData)
+            // Возвращаем INITIAL_DATA как базу, заменяя полями из localStorage
+            return {
+                ...INITIAL_DATA,
+                ...parsed,
+                // Глубокий мерж для вложенных объектов (A, E, F, G, K)
+                sectionA: { ...INITIAL_DATA.sectionA, ...(parsed.sectionA || {}) },
+                sectionE: { 
+                    ...INITIAL_DATA.sectionE, 
+                    ...parsed.sectionE,
+                    self: { ...INITIAL_DATA.sectionE.self, ...(parsed.sectionE?.self || {}) },
+                    partner: { ...INITIAL_DATA.sectionE.partner, ...(parsed.sectionE?.partner || {}) }
+                },
+                sectionF: { ...INITIAL_DATA.sectionF, ...(parsed.sectionF || {}) },
+                sectionK: { ...INITIAL_DATA.sectionK, ...(parsed.sectionK || {}) },
+            }
+        } catch (e) {
+            console.error('Data parsing error, resetting form', e)
+            return INITIAL_DATA
+        }
+    })
+
+    // Сохранение при каждом изменении
+    useEffect(() => {
+        localStorage.setItem('appFormData', JSON.stringify(formData))
+    }, [formData])
+
+    useEffect(() => {
+        localStorage.setItem('currentStep', step.toString())
+    }, [step])
+
+    // Универсальная функция обновления
+    const updateData = (section, field, value) => {
+        setFormData(prev => ({
+            ...prev,
+            [section]: { ...prev[section], [field]: value },
+        }))
+    }
+
+    // Полный сброс формы (для кнопки "Начать заново")
+    const resetForm = () => {
+        const currentTheme = localStorage.getItem('theme');
+        localStorage.clear();
+        if (currentTheme) localStorage.setItem('theme', currentTheme);
+        
+        setFormData(INITIAL_DATA)
+        setStep(0)
+    }
+
+    return { step, setStep, formData, updateData, resetForm }
+}
