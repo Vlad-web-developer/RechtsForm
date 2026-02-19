@@ -1,19 +1,56 @@
 import { PenLine, Trash2, Upload, Image as ImageIcon } from 'lucide-react'
-import { useRef, useState } from 'react'
+import { useRef, useState, useEffect } from 'react' // Добавлен useEffect
 import SignatureCanvas from 'react-signature-canvas'
 import '../css/SectionJ.css'
 import '../css/SectionK.css'
 
 const SectionK = ({ onBack, onFinish }) => {
     const [isConfirmed, setIsConfirmed] = useState(false)
-    const [signatureMode, setSignatureMode] = useState('draw') // 'draw' или 'upload'
-    const [isSigned, setIsSigned] = useState(false) // для режима рисования
-    const [uploadedSignature, setUploadedSignature] = useState(null) // для режима загрузки
+    const [signatureMode, setSignatureMode] = useState('draw') 
+    const [isSigned, setIsSigned] = useState(false) 
+    const [uploadedSignature, setUploadedSignature] = useState(null) 
     
     const sigCanvas = useRef(null)
     const fileInputRef = useRef(null)
 
-    // Очистка подписи (в обоих режимах)
+    // --- ИСПРАВЛЕНИЕ ДЛЯ ТЕЛЕФОНОВ ---
+    // Пересчет координат холста под реальный размер экрана
+    useEffect(() => {
+        let lastWidth = 0;
+
+        const resizeCanvas = () => {
+            if (sigCanvas.current && signatureMode === 'draw') {
+                const canvas = sigCanvas.current.getCanvas();
+                const currentWidth = canvas.offsetWidth;
+                
+                // Игнорируем вызов, если ширина не менялась 
+                // (защита от сброса при открытии клавиатуры на телефоне)
+                if (currentWidth === lastWidth || currentWidth === 0) return;
+                lastWidth = currentWidth;
+
+                const ratio = Math.max(window.devicePixelRatio || 1, 1);
+                
+                // Устанавливаем реальные пиксельные размеры
+                canvas.width = currentWidth * ratio;
+                canvas.height = canvas.offsetHeight * ratio;
+                canvas.getContext("2d").scale(ratio, ratio);
+                
+                // Очищаем, так как при ресайзе HTML5-холст может растянуть пиксели
+                sigCanvas.current.clear();
+                setIsSigned(false);
+            }
+        };
+
+        // Небольшая задержка, чтобы блок успел принять ширину 100%
+        const timeout = setTimeout(resizeCanvas, 50);
+
+        window.addEventListener('resize', resizeCanvas);
+        return () => {
+            clearTimeout(timeout);
+            window.removeEventListener('resize', resizeCanvas);
+        };
+    }, [signatureMode]);
+
     const clearSignature = () => {
         if (signatureMode === 'draw') {
             sigCanvas.current.clear()
@@ -24,7 +61,6 @@ const SectionK = ({ onBack, onFinish }) => {
         }
     }
 
-    // Обработка загрузки файла
     const handleFileUpload = (e) => {
         const file = e.target.files[0]
         if (file) {
@@ -66,19 +102,19 @@ const SectionK = ({ onBack, onFinish }) => {
                     Das Hinweisblatt zu diesem Formular habe ich erhalten und gelesen.
                 </p>
                 <p>
-                    Ich versichere hiermit, dass meine Angaben vollständig und wahr sind. Das Hinweisblatt zu diesem
-Formular habe ich erhalten und gelesen.
-Mir ist bekannt, dass unvollständige oder unrichtige Angaben die Aufhebung der Bewilligung von Prozess- oder Verfahrenskostenhilfe und eine Strafverfolgung nach sich ziehen können. Das Gericht kann
-mich auffordern, fehlende Belege nachzureichen und meine Angaben an Eides statt zu versichern.
-Mir ist auch bekannt, dass ich während des Gerichtsverfahrens und innerhalb eines Zeitraums von
-vier Jahren seit der rechtskräftigen Entscheidung oder der sonstigen Beendigung des Verfahrens verpflichtet bin, dem Gericht wesentliche Verbesserungen meiner wirtschaftlichen Lage oder eine Änderung meiner Anschrift unaufgefordert und unverzüglich mitzuteilen. Bei laufenden Einkünften ist jede
-nicht nur einmalige Verbesserung von mehr als 100 Euro (brutto) im Monat mitzuteilen. </p>
-
-<p>Reduzieren
-sich geltend gemachte Abzüge, muss ich dies ebenfalls unaufgefordert und unverzüglich mitteilen,
-wenn die Entlastung nicht nur einmalig 100 Euro im Monat übersteigt. Ich weiß, dass die Bewilligung
-der Prozess- oder Verfahrenskostenhilfe bei einem Verstoß gegen diese Pflicht aufgehoben werden
-kann, und ich dann die gesamten Kosten nachzahlen muss.
+                    Mir ist bekannt, dass unvollständige oder unrichtige Angaben die Aufhebung der Bewilligung von Prozess- oder Verfahrenskostenhilfe und eine Strafverfolgung nach sich ziehen können. Das Gericht kann
+                    mich auffordern, fehlende Belege nachzureichen und meine Angaben an Eides statt zu versichern.
+                </p>
+                <p>
+                    Mir ist auch bekannt, dass ich während des Gerichtsverfahrens und innerhalb eines Zeitraums von
+                    vier Jahren seit der rechtskräftigen Entscheidung oder der sonstigen Beendigung des Verfahrens verpflichtet bin, dem Gericht wesentliche Verbesserungen meiner wirtschaftlichen Lage oder eine Änderung meiner Anschrift unaufgefordert und unverzüglich mitzuteilen. Bei laufenden Einkünften ist jede
+                    nicht nur einmalige Verbesserung von mehr als 100 Euro (brutto) im Monat mitzuteilen. 
+                </p>
+                <p>
+                    Reduzieren sich geltend gemachte Abzüge, muss ich dies ebenfalls unaufgefordert und unverzüglich mitteilen,
+                    wenn die Entlastung nicht nur einmalig 100 Euro im Monat übersteigt. Ich weiß, dass die Bewilligung
+                    der Prozess- oder Verfahrenskostenhilfe bei einem Verstoß gegen diese Pflicht aufgehoben werden
+                    kann, und ich dann die gesamten Kosten nachzahlen muss.
                 </p>
             </div>
 
@@ -87,7 +123,6 @@ kann, und ich dann die gesamten Kosten nachzahlen muss.
                     <PenLine size={16} /> Unterschrift
                 </label>
 
-                {/* Переключатель режимов */}
                 <div style={{ display: 'flex', gap: '10px', marginBottom: '15px' }}>
                     <button 
                         className={`toggle-btn ${signatureMode === 'draw' ? 'active' : ''}`}
@@ -113,7 +148,8 @@ kann, und ich dann die gesamten Kosten nachzahlen muss.
                     minHeight: '180px',
                     display: 'flex',
                     alignItems: 'center',
-                    justifyContent: 'center'
+                    justifyContent: 'center',
+                    touchAction: 'none' // ВАЖНО: отключает скролл экрана при рисовании
                 }}>
                     
                     {signatureMode === 'draw' ? (
@@ -121,10 +157,9 @@ kann, und ich dann die gesamten Kosten nachzahlen muss.
                             ref={sigCanvas}
                             penColor='black'
                             canvasProps={{
-                                width: 500,
-                                height: 180,
                                 className: 'sigCanvas',
-                                style: { width: '100%', height: '180px' },
+                                // Убраны width и height, теперь они берутся из CSS и адаптивны
+                                style: { width: '100%', height: '180px', touchAction: 'none' },
                             }}
                             onBegin={() => setIsSigned(true)}
                         />
