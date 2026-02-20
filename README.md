@@ -1,292 +1,140 @@
-# RechtsForm - Developer Guide & Documentation
+# RechtsForm - Prozesskostenhilfe (PKH) Wizard
 
-**RechtsForm** ist eine spezialisierte React-Anwendung, die Nutzer beim Ausfüllen des Formulars für Prozesskostenhilfe (PKH) unterstützt. Die Anwendung transformiert den komplexen behördlichen Vordruck in einen benutzerfreundlichen, interaktiven "Wizard" und generiert am Ende ein versandfertiges PDF.
+**RechtsForm** ist eine spezialisierte, interaktive React-Anwendung, die Antragsteller beim Ausfüllen des Formulars für Prozesskostenhilfe (PKH) unterstützt. Die Architektur ist strikt **Local-First** (Zero-Knowledge) aufgebaut, um höchsten Datenschutzanforderungen für sensible Finanz- und Personendaten gerecht zu werden.
 
 ---
 
-## Inhaltsverzeichnis
+## 📋 Inhaltsverzeichnis
 
-1. [Projektübersicht & Stack](#projektübersicht--stack)
+1. [Projektübersicht & Tech Stack](#projektübersicht--tech-stack)
 2. [Architektur & Datenfluss](#architektur--datenfluss)
-3. [Datenmodell (State Management)](#datenmodell-state-management)
-4. [Formular-Sektionen & Logik](#formular-sektionen--logik)
-5. [PDF-Generierung (Mapping)](#pdf-generierung-mapping)
-6. [Styling & UI](#styling--ui)
-7. [Installation & Entwicklung](#installation--entwicklung)
-8. [Projektstruktur](#projektstruktur)
+3. [Funktionsumfang & Formular-Sektionen](#funktionsumfang--formular-sektionen)
+4. [Datenschutz & Sicherheit (Privacy by Design)](#datenschutz--sicherheit-privacy-by-design)
+5. [PDF-Generierung & Mapping](#pdf-generierung--mapping)
+6. [Styling & UI-Konzept](#styling--ui-konzept)
+7. [Installation & Lokale Entwicklung](#installation--lokale-entwicklung)
+8. [Erweiterung des Projekts (Developer Guide)](#erweiterung-des-projekts-developer-guide)
 
 ---
 
-## Projektübersicht & Stack
+## 🛠 Projektübersicht & Tech Stack
 
-Das Projekt wurde mit `create-react-app` erstellt und verwendet moderne Web-Technologien:
+Die Anwendung verzichtet bewusst auf ein Backend zur Datenverarbeitung. Alle Eingaben, Dateianhänge und die finale PDF-Erstellung erfolgen direkt im Browser.
 
-- **Core**: React 18
-- **Routing/State**: React Hooks (Custom Hooks für Formularlogik)
-- **PDF Engine**: `pdf-lib` (Client-seitige PDF-Bearbeitung)
-- **Animation**: `framer-motion` (Übergänge zwischen den Schritten)
+- **Core-Framework**: React 18 (Bootstrapped via `create-react-app`)
+- **State Management**: React Hooks (`useFormData` für den zentralen State-Store, Local Storage für Persistenz)
+- **PDF Processing**: `pdf-lib` für das client-seitige Auslesen, Zusammenführen und Befüllen des Behörden-PDFs
+- **UI & Animation**: `framer-motion` für weiche Übergänge zwischen den Formularschritten
+- **Interaktive Komponenten**:
+  - `react-datepicker` & `date-fns` für Datumsfelder
+  - `react-phone-input-2` für internationale Rufnummern
+  - `react-signature-canvas` für die digitale Unterschrift direkt im Browser
 - **Icons**: `lucide-react`
-- **UI Components**:
-  - `react-datepicker`: Datumsauswahl
-  - `react-phone-input-2`: Telefonnummernformatierung
-- **Persistenz**: `localStorage` (Automatisches Speichern des Fortschritts)
 
 ---
 
-## Architektur & Datenfluss
+## 🏗 Architektur & Datenfluss
 
-Die Anwendung folgt einem einseitigen Datenfluss (Unidirectional Data Flow) mit einem zentralen State-Manager-Hook.
+Die App nutzt einen unidirektionalen Datenfluss mit einem zentralisierten Hook (`useFormData`), um das komplexe Formular-State-Objekt zu mutieren.
 
-### 1. Central Store (`useFormData`)
-
-Der gesamte Zustand des Formulars wird im Custom Hook `src/hooks/useFormData.js` verwaltet.
-
-- **Initialisierung**: Lädt Daten aus dem `localStorage` (`appFormData`), falls vorhanden.
-- **Update-Logik**: Die Funktion `updateData(section, field, value)` ermöglicht gezielte Updates einzelner Felder in tief verschachtelten Objekten.
-- **Persistenz**: Ein `useEffect` synchronisiert jede Änderung sofort mit dem LocalStorage.
-
-### 2. Progress Management (`useFormProgress`)
-
-Berechnet den globalen Fortschritt basierend auf ausgefüllten Pflichtfeldern.
-
-- Definiert "Meilensteine" für jeden Schritt (0-100%).
-- Visualisierung durch die Komponente `ProgressBar.jsx`.
-
-### 3. App-Komponente (`App.js`)
-
-Dient als Controller:
-
-- Hält den aktuellen Schritt-Index (`step`).
-- Entscheidet, welche `Section`-Komponente gerendert wird.
-- Verwaltet Animations-Übergänge via `AnimatePresence`.
+1.  **Central Store (`useFormData`)**:
+    Das gesamte Formular (Section A - K) wird als verschachteltes JSON-Objekt gepflegt. Die Funktion `updateData(section, field, value)` übernimmt partielle Updates und synchronisiert den Status fortlaufend mit dem `localStorage` des Browsers.
+2.  **Progress Management (`useFormProgress`)**:
+    Überwacht Pflichtfelder in Echtzeit und berechnet den globalen Fortschritt, dargestellt in der `ProgressBar.jsx`.
+3.  **App Controller (`App.js`)**:
+    Steuert das Routing zwischen den `step`-Indices, lädt Animationen via `<AnimatePresence>` und initialisiert nach Fertigstellung den Download- sowie Löschprozess.
 
 ---
 
-## Datenmodell (State Management)
+## 🚀 Funktionsumfang & Formular-Sektionen
 
-Das Datenmodell ist ein großes JSON-Objekt, unterteilt in die Sektionen A bis K.
+Die Anwendung ist in logische Sektionen (A bis L) unterteilt, welche sich den offiziellen Formularkategorien der Justiz anpassen:
 
-### Struktur des `formData` Objekts:
-
-```javascript
-{
-  sectionA: { // Persönliche Angaben
-    fullName: String,
-    occupation: String,
-    birthday: String, // Format: DD.MM.YYYY
-    maritalStatus: String,
-    address: String,
-    phone: String,
-    legalRepresentative: String
-  },
-  sectionB: { // Rechtsschutzversicherung
-    hasInsurance: 'yes' | 'no' | null,
-    insuranceDetails: String,
-    hasPotentialInsurance: 'yes' | 'no' | null, // z.B. Vereine/Gewerkschaft
-    potentialInsuranceDetails: String
-  },
-  sectionC: { // Unterhaltsanspruch
-    hasMaintenanceClaims: 'yes' | 'no' | null,
-    maintenancePersonDetails: String
-  },
-  sectionD: { // Angehörige
-    hasDependents: 'yes' | 'no' | null,
-    dependents: [ // Array von Objekten
-      { name, birthday, relationship, monthlyAmount, hasOwnIncome, incomeAmount }
-    ]
-  },
-  sectionE: { // Einnahmen (Komplex)
-    receivesSocialAssistanceSGBXII: 'yes' | 'no' | null, // Wenn 'yes' -> Sprung zu K
-    hasPartner: 'yes' | 'no' | null,
-    self: { ...IncomeCategories },    // siehe unten
-    partner: { ...IncomeCategories }  // siehe unten
-  },
-  sectionF: { // Abzüge
-    self: { steuern, sozialvers, ... },
-    partner: { steuern, sozialvers, ... }
-  },
-  sectionG: { // Vermögen
-    bankAccounts: { has, description, value },
-    realEstate: { has, description, value },
-    // ... weitere Vermögenswerte
-  },
-  sectionH: { // Wohnkosten
-    livingSpace: String,
-    numberOfRooms: String,
-    totalPeople: String,
-    housingType: 'tenant' | 'owner',
-    // Miet- oder Eigentumsfelder abhängig von housingType
-    rentCold: String,
-    loans: [] // Nur bei Eigentümern
-  },
-  sectionI: { // Zahlungsverpflichtungen
-    hasObligations: 'yes' | 'no' | null,
-    obligations: []
-  },
-  sectionJ: { // Besondere Belastungen
-    hasSpecialLoads: 'yes' | 'no' | null,
-    loads: []
-  },
-  sectionK: { // Abschluss
-    location: String,
-    date: String
-  }
-}
-```
+- **Section A (Person)**: Stammdaten mit dynamischer Rufnummernformatierung und Validierung.
+- **Section E (Einnahmen)**: Komplexer Sub-Wizard. Bezieht der Nutzer SGB XII, werden irrelevante Folgefragen (Partner-Einkommen etc.) intelligent übersprungen und der Wizard verkürzt.
+- **Section H (Wohnkosten)**: Dynamische Render-Logik, die zwischen Mieter (Kaltmiete, Nebenkosten) und Eigentümer (Zinsen, Tilgung, Raten) unterscheidet.
+- **Section K (Abschließende Erklärung & Unterschrift)**:
+  - Erlaubt die **digitale Unterschrift** via Touch/Maus auf dem HTML5-Canvas (`react-signature-canvas`).
+  - Alternativ kann eine Unterschrift als Bild (JPG/PNG) hochgeladen werden.
+- **Section L (Belege & Anhänge)**:
+  - Ermittelt automatisch basierend auf den vorherigen Eingaben (z.B. "Besitzt Lebensversicherung?"), welche Dokumente zwingend hochgeladen werden müssen.
+  - Strikte Validierung: Max. 10 MB pro Datei, nur `PDF`, `JPG`, `PNG`.
+  - Drag-and-Drop Unterstützung.
 
 ---
 
-## Formular-Sektionen & Logik
+## 🔒 Datenschutz & Sicherheit (Privacy by Design)
 
-Jede Sektion ist eine eigene React-Komponente (`src/components/SectionX.jsx`).
+Dieses Projekt erfasst hochsensible, persönliche Daten. Daher wurden folgende Zero-Knowledge- und Datensparsamkeits-Prinzipien strikt implementiert:
 
-### Sektion A (Person)
-
-- **Validierung**: Regex-Prüfung für Namen, Pflichtfelder.
-- **Besonderheit**: Nutzt `react-phone-input-2` für internationale Nummernformate.
-
-### Sektion E (Einnahmen)
-
-Dies ist die komplexeste Sektion. Sie enthält einen **internen Sub-Wizard** (Steps 0-3):
-
-1.  **SGB XII Check**: Bezieht der Nutzer Sozialhilfe nach SGB XII?
-    - **JA**: Alle Einkommens-/Vermögensfragen entfallen. Der User wird direkt zu Sektion K geleitet.
-    - **NEIN**: Weiter zu Einkommensfragen.
-2.  **Einkommen Selbst**: Detaillierte Liste (Lohn, Rente, Kindergeld etc.).
-3.  **Partner Check**: Gibt es einen Ehegatten/Partner?
-    - **JA**: Sub-Step zur Erfassung der Partner-Einkommen wird aktiviert.
-    - **NEIN**: Partner-Einkommen wird übersprungen.
-
-### Sektion H (Wohnkosten)
-
-- Unterscheidet dynamisch zwischen **Mieter** und **Eigentümer**.
-- Zeigt je nach Auswahl (`housingType`) komplett unterschiedliche Eingabefelder an (Kaltmiete vs. Zinsen/Tilgung).
-
-### Sektion L (Belege & Anhänge) [NEU]
-
-Eine neue Komponente (`src/components/SectionL.jsx`) ermöglicht das Hinzufügen von Nachweisen.
-
-- **Intelligente Anforderungslogik**: Das System prüft basierend auf den vorherigen Eingaben (z.B. "Haben Sie Kinder?", "Beziehen Sie SGB XII?"), welche Belege _zwingend_ erforderlich sind.
-- **Drag & Drop**: Intuitive Oberfläche zum Hochladen von Dateien.
-- **Client-Side Merging**: Hochgeladene Bilder (JPG/PNG) und PDFs werden mittels `pdf-lib` direkt im Browser in das finale Antrags-PDF eingebettet. Es findet kein Server-Upload statt.
+1.  **100% Client-Side Processing**: Es findet keine Netzwerkkommunikation mit einem Server statt. Weder Eingaben noch hochgeladene Einkommensnachweise verlassen das Endgerät.
+2.  **Ephemere Datenhaltung (Auto-Clear)**: Der `localStorage` dient ausschließlich dem Verhindern von Datenverlust bei Verbindungsabbruch oder Page-Reload. Beim Klick auf "Fertigstellen & PDF laden" wird ein **Deep Clean** (`localStorage.clear()`, `sessionStorage.clear()`) erzwungen, und der Arbeitsspeicher wird geleert.
+3.  **Lokales Dokumenten-Merging**: Hochgeladene Beweisdokumente werden direkt im Speicher (`ArrayBuffer`) in das PDF-generierte Enddokument eingebettet.
 
 ---
 
-## Datenschutz & Sicherheit
+## 📄 PDF-Generierung & Mapping
 
-Sicherheit und Datenschutz stehen im Kern der Architektur. Da es sich um sensible persönliche und wirtschaftliche Daten handelt, wurde die App nach dem **Privacy-by-Design** Prinzip entwickelt.
+Zuständig ist `src/utils/pdfGenerator.js` in Verbindung mit dem `src/utils/pdf/` Verzeichnis.
 
-### 1. Zero-Knowledge / Local-Only
-
-- **Kein Backend**: Es gibt keinen Server, der Formulardaten empfängt oder speichert. Die gesamte Verarbeitung findet im Browser des Nutzers statt.
-- **Lokale PDF-Generierung**: Das PDF wird lokal generiert. Selbst die angehängten Belege (Gehaltsnachweise, Mietverträge) verlassen nie das Gerät des Nutzers.
-
-### 2. Daten-Sparsamkeit
-
-- **Auto-Clear**: Sobald das PDF erfolgreich generiert und heruntergeladen wurde, initiiert die App einen "Deep Clean". Alle Formulardaten werden sofort aus dem `localStorage` und dem Arbeitsspeicher gelöscht.
-- **Persistenz nur für UX**: Die Zwischenspeicherung im `localStorage` dient ausschließlich der Nutzerfreundlichkeit (Verhindern von Datenverlust bei versehentlichem Neuladen) und ist temporär.
-
-### 3. Transparenz
-
-- Vor Beginn wird der Nutzer explizit auf die lokale Verarbeitung hingewiesen.
-- In Sektion L wird durch visuelle Indikatoren (Privacy Shield Icon) erneut bestätigt, dass kein Upload stattfindet.
+1.  **Template Load**: Das leere amtliche Formular (`public/formular.pdf`) wird als Base-Array eingelesen.
+2.  **Data Mapping**: Konstanten in `pdfMappings.js` ordnen den State des React-Wizards eindeutig den Namen der AcroForm-Felder im PDF zu. Die Funktionen in `pdfFillers.js` befüllen Checkboxen und Textfelder.
+3.  **File Merging**: Im Anschluss werden die in Section L gesammelten Dateien an das Base-PDF angehängt. Bilder (JPG/PNG) werden hierbei zentriert auf neu generierten PDF-Seiten gezeichnet. Eine digitale Unterschrift aus Section K wird über fest definierte Koordinaten (`width, height, x, y`) in das originale Unterschriftenfeld gezeichnet.
+4.  **Blob Generation**: Das finale PDF wird im Speicher zusammengesetzt und via DOM-Element (`<a>` Download-Attribut) zur Verfügung gestellt.
 
 ---
 
-## PDF-Generierung (Mapping)
+## 🎨 Styling & UI-Konzept
 
-Die PDF-Erstellung erfolgt im Browser (Client-Side) ohne Server-Backend.
+Das UI ist auf bestmögliche Conversion und Accessibility ausgelegt.
 
-**Dateien**: `src/utils/pdfGenerator.js` und `src/utils/pdf/`
-
-### Workflow:
-
-1.  **Template laden**: Lädt `public/formular.pdf`.
-2.  **Formularfelder lesen**: `pdf-lib` analysiert die PDF-Struktur.
-3.  **Mapping ausführen**:
-    - `src/utils/pdf/pdfMappings.js`: Definiert Konstanten, welches Datenfeld welchem PDF-Feldnamen entspricht.
-    - `src/utils/pdf/pdfFillers.js`: Enthält Funktionen (`fillIncomeData`, `fillAssetsData` etc.), die die Logik zur Befüllung implementieren.
-4.  **Anhänge verarbeiten (Neu)**:
-    - Iteriert über alle in Sektion L hochgeladenen Dateien.
-    - **PDFs**: Werden Seite für Seite an das Hauptdokument angehängt.
-    - **Bilder**: Werden automatisch skaliert und zentriert auf neuen Seiten platziert.
-5.  **Download**: Der Blob wird direkt zum Download angeboten.
+- **Custom CSS Modules**: Natives CSS wird zur Isolierung von Styles genutzt (`SectionK.css`, `App.css`, `index.css`). Die von `create-react-app` gelieferte CSS-Architektur wurde beibehalten (Kein Material-UI verwendet).
+- **Responsivität**: Grid/Stack-Layouts passen sich via Media Queries in `phone.css` automatisch an Mobile Devices an.
+- **Dark Mode**: Ein integrierter `ThemeToggle` erlaubt den nahtlosen Wechsel zwischen einer klassischen hellen Ansicht und einem fokussierten Dark Mode, wobei Farbvariablen auf der `:root` Ebene (`--bg-color`, `--accent-color`) genutzt werden.
 
 ---
 
-## Styling & UI
-
-Das Projekt verwendet natives CSS in einer modularen Struktur.
-
-- **Global**: `src/css/index.css` (Variablen, Resets, Typografie).
-- **Komponenten**: Jede Sektion hat eine eigene CSS-Datei (z.B. `src/css/SectionE.css`).
-- **Responsivität**:
-  - `src/css/phone.css`: Spezielle Anpassungen für mobile Geräte.
-  - Media Queries sorgen für Layout-Anpassungen (Grid zu Stack).
-- **Themes**: Ein `ThemeToggle` erlaubt Umschalten zwischen Themes (Startet im Dark Mode mit Neon-Akzenten).
-
----
-
-## Installation & Entwicklung
+## 💻 Installation & Lokale Entwicklung
 
 ### Voraussetzungen
 
-- Node.js (v16 oder höher empfohlen)
-- npm
+- **Node.js**: `v16.x` oder höher (empfohlen `v18+ LTS`)
+- **npm** oder **yarn**
 
 ### Setup
 
 ```bash
-# Repository klonen
-git clone <repo-url>
+# 1. Repository klonen
+git clone <repository-url>
+cd rechtsform
 
-# Abhängigkeiten installieren
+# 2. Abhängigkeiten installieren
 npm install
 
-# Entwicklungsserver starten
+# 3. Lokalen Entwicklungsserver starten (läuft auf http://localhost:3000)
 npm start
 ```
 
-Die App läuft unter `http://localhost:3000`.
-
-### Build
+### Build für Produktion
 
 ```bash
 npm run build
 ```
 
-Erzeugt einen optimierten Production-Build im `build/` Ordner.
+Das statische, optimierte Build-Ergebnis liegt danach im Ordner `build/` und kann auf jedwedem statischen Webserver (Nginx, Netlify, Vercel) gehostet werden.
 
 ---
 
-## Projektstruktur
+## 👨‍💻 Erweiterung des Projekts (Developer Guide)
 
-```
-src/
-├── app/
-│   └── App.js              # Hauptkomponente & Step-Routing-Logik
-├── components/
-│   ├── common/             # Wiederverwendbare UI-Elemente
-│   │   ├── DateInput.jsx   # Datumswähler Wrapper
-│   │   └── NumberInput.jsx # Input für Währungsbeträge
-│   ├── SectionA.jsx bis SectionL.jsx  # Die einzelnen Formularschritte (inkl. Upload)
-│   ├── FormIntro.jsx       # Startseite mit Datenschutz-Consent
-│   ├── ProgressBar.jsx     # Fortschrittsanzeige
-│   └── ThemeToggle.jsx     # Dark/Light Mode Switch
-├── css/
-│   ├── App.css             # Layout-Container Styles
-│   ├── index.css           # Globale Styles & Variablen
-│   ├── phone.css           # Mobile Overrides
-│   └── Section*.css        # Sektionsspezifische Styles
-├── hooks/
-│   ├── useFormData.js      # Zentraler State & LocalStorage Logic
-│   ├── useFormProgress.js  # Fortschrittsberechnung
-│   └── useSectionValidation.js # Validierungslogik
-├── utils/
-│   ├── pdfGenerator.js     # Hauptfunktion PDF-Erstellung & File Merging
-│   └── pdf/
-│       ├── pdfFillers.js   # Logik zum Befüllen der PDF-Felder
-│       ├── pdfHelpers.js   # Helper (SetCheckbox etc.)
-│       └── pdfMappings.js  # Mapping-Tabellen (Daten -> PDF Feldnamen)
-└── index.js                # React Entry Point
-```
+### Hinzufügen einer neuen Formular-Sektion
+
+Wenn Sie den Wizard um eine Sektion "M" erweitern möchten:
+
+1.  **State erweitern**: Fügen Sie im Start-State (`src/hooks/useFormData.js`) ein neues Objekt `sectionM` ein.
+2.  **Komponente bauen**: Erstellen Sie `src/components/SectionM.jsx` und leiten Sie Props ab: `data`, `onChange`, `onBack`, `onNext`.
+3.  **Routing in App.js anpassen**:
+    - Erhöhen Sie die Konditionen im Layout `<main>` (z.B. `step < 14`).
+    - Fügen Sie `<SectionM>` beim passenden `step` innerhalb der `<AnimatePresence>` Verzweigung ein.
+4.  **PDF-Mapping (`pdfMappings.js` & `pdfFillers.js`)**: Falls der Schritt neue Felder in das End-PDF schreibt, benennen Sie das Formtextfeld im Original-PDF und verlinken Sie es in der Mapping-Liste. Fügen Sie die Evaluierung in die entsprechende Filler-Methode ein.
+5.  **Belege (`SectionL.jsx`)**: Falls der neue Schritt ebenfalls Belege erfordert, passen Sie die Logik in `getRequiredDocs()` an.
