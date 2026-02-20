@@ -41,7 +41,7 @@
 }
 
 .signature-container {
-    background-color: #ffffff; /* Обязательно белый фон, так как в PDF черная подпись на темном фоне не видна */
+    background-color: #ffffff; 
     overflow: hidden;
     transition: border-color 0.2s ease;
 }
@@ -50,14 +50,14 @@
     border-color: var(--accent-color);
 }
 
-/* Адаптивность для мобилок */
+
 @media (max-width: 600px) {
     .sigCanvas {
         height: 150px !important;
     }
 }
 
-/* Стили для кастомного чекбокса (если не прописаны) */
+
 .radio-card-option {
     display: flex;
     align-items: center;

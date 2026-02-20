@@ -6,7 +6,7 @@ const IncomeItem = ({ cat, itemData, onUpdate }) => {
             <div className='income-header' style={{ display: 'block' }}>
                 <div className='income-label' style={{ marginBottom: '15px' }}>{cat.label}</div>
                 
-                {/* Кнопки одинаковой ширины */}
+                {}
                 <div className='income-controls' style={{ display: 'flex', gap: '10px', background: 'transparent', padding: 0 }}>
                     <button
                         style={{ flex: 1, margin: 0 }}

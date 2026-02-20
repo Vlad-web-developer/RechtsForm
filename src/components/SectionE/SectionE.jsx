@@ -98,7 +98,7 @@ const SectionE = ({ data, onChange, onBack, onNext, setStep }) => {
                                 <div className='income-label' style={{ marginBottom: '15px' }}>
                                     {cat.label}
                                 </div>
-                                {/* Кнопки 50/50 для пункта Sonstige */}
+                                {}
                                 <div className='income-controls' style={{ display: 'flex', gap: '10px', background: 'transparent', padding: 0 }}>
                                     <button
                                         style={{ flex: 1, margin: 0 }}
@@ -152,7 +152,7 @@ const SectionE = ({ data, onChange, onBack, onNext, setStep }) => {
                     ),
                 )}
 
-                {/* Блок при ответе НЕТ на все вопросы */}
+                {}
                 {allNo && personType === 'self' && (
                     <motion.div
                         initial={{ opacity: 0, scale: 0.95 }}

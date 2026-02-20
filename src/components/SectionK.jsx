@@ -13,11 +13,11 @@ const SectionK = ({ data = {}, onChange = () => {}, onBack, onFinish }) => {
     const sigCanvas = useRef(null)
     const fileInputRef = useRef(null)
 
-    // --- УСТАНОВКА СЕГОДНЯШНЕЙ ДАТЫ ПО УМОЛЧАНИЮ ---
+    
     useEffect(() => {
         if (!data.date) {
             const today = new Date();
-            // Форматируем дату в немецкий стандарт: DD.MM.YYYY
+            
             const formattedDate = today.toLocaleDateString('de-DE', {
                 day: '2-digit',
                 month: '2-digit',
@@ -25,15 +25,15 @@ const SectionK = ({ data = {}, onChange = () => {}, onBack, onFinish }) => {
             });
             onChange('date', formattedDate);
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+        
     }, []);
 
-    // --- МАСКА ДЛЯ ДАТЫ (TT.MM.JJJJ) ---
+    
     const handleDateChange = (e) => {
-        let value = e.target.value.replace(/\D/g, ''); // Удаляем все, кроме цифр
-        if (value.length > 8) value = value.slice(0, 8); // Максимум 8 цифр
+        let value = e.target.value.replace(/\D/g, ''); 
+        if (value.length > 8) value = value.slice(0, 8); 
 
-        // Автоматически добавляем точки
+        
         if (value.length >= 5) {
             value = `${value.slice(0, 2)}.${value.slice(2, 4)}.${value.slice(4)}`;
         } else if (value.length >= 3) {
@@ -43,7 +43,7 @@ const SectionK = ({ data = {}, onChange = () => {}, onBack, onFinish }) => {
         onChange('date', value);
     };
 
-    // Пересчет координат холста под реальный размер экрана (для мобильных)
+    
     useEffect(() => {
         let lastWidth = 0;
 
@@ -144,7 +144,7 @@ const SectionK = ({ data = {}, onChange = () => {}, onBack, onFinish }) => {
                 </p>
             </div>
 
-            {/* --- БЛОК: ORT UND DATUM --- */}
+            {}
             <div style={{ 
                 display: 'flex', 
                 gap: '20px', 
@@ -166,7 +166,7 @@ const SectionK = ({ data = {}, onChange = () => {}, onBack, onFinish }) => {
                     <input
                         type='text'
                         value={data.date || ''}
-                        onChange={handleDateChange} // Используем функцию маски
+                        onChange={handleDateChange} 
                         placeholder='TT.MM.JJJJ'
                         maxLength="10"
                         style={{ width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid var(--line-color)' }}

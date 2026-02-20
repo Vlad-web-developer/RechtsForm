@@ -1,4 +1,4 @@
-/* SectionL.css */
+
 
 .section-l-container {
 	display: flex;
@@ -109,7 +109,7 @@
 	color: var(--text-secondary);
 }
 
-/* File Preview State */
+
 .file-preview {
 	display: flex;
 	align-items: center;
@@ -154,7 +154,7 @@
 .remove-btn {
 	width: 36px;
 	height: 36px;
-	border-radius: 8px; /* Slightly rounded square, majestic */
+	border-radius: 8px; 
 	border: 1px solid rgba(239, 68, 68, 0.2);
 	background: rgba(239, 68, 68, 0.05);
 	color: #ef4444;
@@ -191,14 +191,14 @@
 }
 
 .status-ready {
-    color: #4ade80; /* Яркий зеленый для темной темы */
-    background: rgba(74, 222, 128, 0.15); /* Полупрозрачный фон */
+    color: #4ade80; 
+    background: rgba(74, 222, 128, 0.15); 
     border: 1px solid rgba(74, 222, 128, 0.3);
     padding: 4px 10px;
     font-weight: 600;
 }
 
-/* Измененный блок иконки файла (зеленый квадрат слева) */
+
 .file-icon-box {
     width: 44px;
     height: 44px;
@@ -211,14 +211,14 @@
     border: 1px solid rgba(74, 222, 128, 0.2);
 }
 
-/* Мощная корзина с высокой контрастностью */
+
 .remove-btn {
     width: 40px;
     height: 40px;
     border-radius: 10px;
-    border: 1px solid rgba(239, 68, 68, 0.4); /* Более видимая рамка */
-    background: rgba(239, 68, 68, 0.15); /* Заметный красный фон */
-    color: #ff6b6b; /* Яркий красный цвет иконки */
+    border: 1px solid rgba(239, 68, 68, 0.4); 
+    background: rgba(239, 68, 68, 0.15); 
+    color: #ff6b6b; 
     display: flex;
     align-items: center;
     justify-content: center;
@@ -228,8 +228,8 @@
 }
 
 .remove-btn:hover {
-    background: #ef4444; /* Полностью красный при наведении */
-    color: white; /* Белая иконка для максимального контраста */
+    background: #ef4444; 
+    color: white; 
     border-color: #ef4444;
     transform: scale(1.05);
     box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
@@ -239,14 +239,14 @@
     transform: scale(0.95);
 }
 
-/* Улучшение карточки при загрузке */
+
 .upload-card.uploaded {
     border-color: #22c55e;
-    background: rgba(34, 197, 94, 0.08); /* Чуть насыщеннее */
+    background: rgba(34, 197, 94, 0.08); 
     box-shadow: 0 0 15px rgba(34, 197, 94, 0.05);
 }
 
-/* Адаптация бейджа для светлой темы (если используется) */
+
 [data-theme='light'] .status-ready {
     color: #15803d;
     background: #dcfce7;
@@ -256,7 +256,7 @@
 .upload-header {
     display: flex;
     justify-content: space-between;
-    align-items: center; /* Центрирует бейдж по вертикали относительно заголовка */
+    align-items: center; 
     gap: 10px;
     margin-bottom: 12px;
 }
@@ -265,30 +265,30 @@
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    font-size: 0.75rem; /* Чуть меньше текст для аккуратности */
+    font-size: 0.75rem; 
     font-weight: 600;
-    padding: 4px 12px; /* Фиксированные отступы вместо круга */
-    border-radius: 99px; /* Форма пилюли */
-    white-space: nowrap; /* Запрещает перенос "Bereit" на вторую строку */
-    flex-shrink: 0; /* Не дает бейджу сжиматься */
+    padding: 4px 12px; 
+    border-radius: 99px; 
+    white-space: nowrap; 
+    flex-shrink: 0; 
 }
 
-/* Яркий и четкий статус для темной темы */
+
 .status-ready {
     color: #4ade80; 
     background: rgba(74, 222, 128, 0.15);
     border: 1px solid rgba(74, 222, 128, 0.4);
 }
 
-/* Контрастная корзина */
+
 .remove-btn {
     width: 38px;
     height: 38px;
     border-radius: 10px;
-    /* Увеличиваем прозрачность фона и яркость рамки */
+    
     background: rgba(239, 68, 68, 0.2) !important; 
     border: 1px solid rgba(239, 68, 68, 0.6) !important;
-    color: #ff6b6b !important; /* Ярко-красный цвет иконки */
+    color: #ff6b6b !important; 
     display: flex;
     align-items: center;
     justify-content: center;
@@ -303,47 +303,47 @@
     box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
 }
 
-/* Иконка внутри карточки (зеленый листок) */
+
 .file-icon-box {
     background: rgba(34, 197, 94, 0.15) !important;
     border: 1px solid rgba(34, 197, 94, 0.3);
     color: #4ade80 !important;
 }
 
-/* Обводка самой карточки при успешной загрузке */
+
 .upload-card.uploaded {
     border-color: rgba(34, 197, 94, 0.5) !important;
 }
 
-/* Контейнер заголовка */
+
 .upload-header {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start; /* Выравнивание по верхнему краю для многострочного текста */
+    align-items: flex-start; 
     gap: 12px;
     margin-bottom: 12px;
     width: 100%;
 }
 
-/* Текст заголовка документа (слева) */
+
 .upload-header > span:first-child {
     flex: 1;
     min-width: 0;
     font-size: 0.95rem;
     line-height: 1.4;
     color: var(--text-primary);
-    white-space: normal;      /* РАЗРЕШАЕМ перенос строки */
-    word-wrap: break-word;    /* Перенос длинных слов */
+    white-space: normal;      
+    word-wrap: break-word;    
 }
 
-/* Фиксированный бейдж "Bereit" (справа) */
+
 .upload-status-badge {
-    flex-shrink: 0;           /* Запрещаем сжиматься */
-    width: 85px;              /* ФИКСИРОВАННАЯ ширина блока */
-    height: 28px;             /* Фиксированная высота для стабильности */
+    flex-shrink: 0;           
+    width: 85px;              
+    height: 28px;             
     display: inline-flex;
     align-items: center;
-    justify-content: center;  /* Центровка текста внутри */
+    justify-content: center;  
     gap: 6px;
     font-size: 0.75rem;
     font-weight: 700;
@@ -351,14 +351,14 @@
     text-transform: none;
 }
 
-/* Цвета и контраст для статуса */
+
 .status-ready {
     color: #4ade80 !important; 
     background: rgba(74, 222, 128, 0.12) !important;
     border: 1.5px solid rgba(74, 222, 128, 0.4) !important;
 }
 
-/* Контрастная корзина (удаление) */
+
 .remove-btn {
     width: 40px;
     height: 40px;
@@ -384,15 +384,15 @@
     font-size: 0.9rem;
     font-weight: 600;
     color: var(--text-primary);
-    white-space: normal;      /* Разрешаем перенос имени файла, если оно очень длинное */
-    word-break: break-all;    /* Чтобы длинные тех-имена не вылезали за край */
+    white-space: normal;      
+    word-break: break-all;    
     line-height: 1.3;
 }
 
 .file-details {
     display: flex;
     flex-direction: column;
-    flex: 1;                 /* Растягиваем детали текста */
-    margin-right: 7px;      /* ОТСТУП ОТ МУСОРКИ (с запасом, больше 7px) */
+    flex: 1;                 
+    margin-right: 7px;      
     min-width: 0;
 }

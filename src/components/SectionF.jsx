@@ -30,10 +30,10 @@ const SectionF = ({ data, onChange, onBack, onNext }) => {
                     (z.B. Lohnsteuer, Sozialversicherung, Fahrtkosten zur Arbeit, notwendige Versicherungen)
                 </div>
 
-                {/* Сетка выбора: на десктопе 2 колонки, на мобилках 1 */}
+                {}
                 <div className='selection-grid'>
                     
-                    {/* Карточка "JA" */}
+                    {}
                     <motion.div
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
@@ -52,7 +52,7 @@ const SectionF = ({ data, onChange, onBack, onNext }) => {
                         </div>
                     </motion.div>
 
-                    {/* Карточка "NEIN" */}
+                    {}
                     <motion.div
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
@@ -74,7 +74,7 @@ const SectionF = ({ data, onChange, onBack, onNext }) => {
                 </div>
             </div>
 
-            {/* === НАВИГАЦИЯ === */}
+            {}
             <div className='navigation-footer'>
                 <button className='btn-secondary-action' onClick={onBack}>
                     Zurück

@@ -27,7 +27,7 @@ const INITIAL_DATA = {
 	sectionE: {
 		receivesSocialAssistanceSGBXII: null,
 		hasPartner: null,
-		// Оставляем структуру для 12 категорий
+		
 		self: {
 			nichtselbstaendig: { has: null, brutto: '' },
 			selbstaendig: { has: null, brutto: '' },
@@ -114,24 +114,24 @@ const INITIAL_DATA = {
 }
 
 export const useFormData = () => {
-	// Инициализация шага
+	
 	const [step, setStep] = useState(() => {
 		const savedStep = localStorage.getItem('currentStep')
 		return savedStep ? parseInt(savedStep, 10) : 0
 	})
 
-	// Инициализация данных с глубоким мержем (чтобы при обновлении кода старые данные не ломали форму)
+	
 	const [formData, setFormData] = useState(() => {
 		const savedData = localStorage.getItem('appFormData')
 		if (!savedData) return INITIAL_DATA
 
 		try {
 			const parsed = JSON.parse(savedData)
-			// Возвращаем INITIAL_DATA как базу, заменяя полями из localStorage
+			
 			return {
 				...INITIAL_DATA,
 				...parsed,
-				// Глубокий мерж для вложенных объектов (A, E, F, G, K)
+				
 				sectionA: { ...INITIAL_DATA.sectionA, ...(parsed.sectionA || {}) },
 				sectionE: {
 					...INITIAL_DATA.sectionE,
@@ -154,7 +154,7 @@ export const useFormData = () => {
 		}
 	})
 
-	// Сохранение при каждом изменении
+	
 	useEffect(() => {
 		localStorage.setItem('appFormData', JSON.stringify(formData))
 	}, [formData])
@@ -163,7 +163,7 @@ export const useFormData = () => {
 		localStorage.setItem('currentStep', step.toString())
 	}, [step])
 
-	// Универсальная функция обновления
+	
 	const updateData = (section, field, value) => {
 		setFormData(prev => ({
 			...prev,
@@ -171,7 +171,7 @@ export const useFormData = () => {
 		}))
 	}
 
-	// Полный сброс формы (для кнопки "Начать заново")
+	
 	const resetFormData = () => {
 		const currentTheme = localStorage.getItem('theme')
 		localStorage.clear()

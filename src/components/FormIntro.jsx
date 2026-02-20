@@ -62,7 +62,7 @@ const FormIntro = ({ onNext }) => {
                     ></div>
                 </div>
 
-                {/* Privacy Policy Accordion */}
+                {}
                 <div
                     style={{
                         marginBottom: '25px',
@@ -219,7 +219,7 @@ const FormIntro = ({ onNext }) => {
                         gap: '15px',
                     }}
                 >
-                    {/* General Consent */}
+                    {}
                     <div
                         style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}
                     >
@@ -230,10 +230,10 @@ const FormIntro = ({ onNext }) => {
                             onChange={e => setGeneralConsent(e.target.checked)}
                             style={{
                                 marginTop: '4px',
-                                width: '20px',        // Жестко фиксируем ширину
-                                height: '20px',       // Жестко фиксируем высоту
-                                minWidth: '20px',     // Запрещаем сжиматься
-                                minHeight: '20px',    // Запрещаем сжиматься
+                                width: '20px',        
+                                height: '20px',       
+                                minWidth: '20px',     
+                                minHeight: '20px',    
                                 cursor: 'pointer',
                                 flexShrink: 0,
                                 accentColor: 'var(--accent-color)' 
@@ -251,7 +251,7 @@ const FormIntro = ({ onNext }) => {
                         </label>
                     </div>
 
-                    {/* Privacy Consent */}
+                    {}
                     <div
                         style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}
                     >
@@ -262,13 +262,13 @@ const FormIntro = ({ onNext }) => {
                             onChange={e => setPrivacyConsent(e.target.checked)}
                             style={{
                                 marginTop: '4px',
-                                width: '20px',        // Жестко фиксируем ширину
-                                height: '20px',       // Жестко фиксируем высоту
-                                minWidth: '20px',     // Запрещаем сжиматься
-                                minHeight: '20px',    // Запрещаем сжиматься
+                                width: '20px',        
+                                height: '20px',       
+                                minWidth: '20px',     
+                                minHeight: '20px',    
                                 cursor: 'pointer',
                                 flexShrink: 0,
-                                accentColor: 'var(--accent-color)' // Красивый цвет галочки
+                                accentColor: 'var(--accent-color)' 
                             }}
                         />
                         <label

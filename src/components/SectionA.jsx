@@ -30,7 +30,7 @@ const SectionA = ({ data, onChange, onBack, onNext }) => {
         const isMaritalStatusValid =
             data.maritalStatus && data.maritalStatus.trim().length > 0
         
-        // Международные номера бывают от 8 до 15 цифр.
+        
         const phoneDigits = data.phone ? data.phone.replace(/\D/g, '') : ''
         const isPhoneValid = phoneDigits.length > 7 
         
@@ -140,13 +140,13 @@ const SectionA = ({ data, onChange, onBack, onNext }) => {
                         enableSearch={true}
                         disableSearchIcon={true}
                         
-                        // Разрешаем вводить любой код (например, +971), флаг сменится сам
+                        
                         countryCodeEditable={true} 
                         
-                        // 1. Задаем маску: код оператора в (), а вместо пробелов — тире
+                        
                         masks={{ de: '(...) ...-..-..' }} 
                         
-                        // 2. Показываем пустые места как нижние подчеркивания
+                        
                         placeholder='+49 (___) ___-__-__'
                     />
                     {errors.phone && (

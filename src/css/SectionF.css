@@ -429,7 +429,7 @@ body.dark-mode {
     box-shadow: 0 0 0 1px var(--accent-color);
 }
 
-/* Иконки внутри карточек */
+
 .selection-indicator {
     margin-bottom: 12px;
 }
@@ -453,14 +453,14 @@ body.dark-mode {
     color: var(--accent-color);
 }
 
-/* Адаптивность для мобильных устройств */
+
 @media (max-width: 600px) {
     .selection-grid {
-        grid-template-columns: 1fr; /* 1 колонка (друг над другом) на мобилках */
+        grid-template-columns: 1fr; 
     }
     
     .selection-card {
-        flex-direction: row; /* На мобилках иконка и текст в ряд для экономии места */
+        flex-direction: row; 
         justify-content: flex-start;
         padding: 16px 20px;
         min-height: auto;
@@ -472,7 +472,7 @@ body.dark-mode {
     }
 }
 
-/* Дополнительная полировка заголовков */
+
 .main-question-block {
     margin-bottom: 30px;
 }

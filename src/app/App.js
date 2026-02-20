@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from 'framer-motion'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 import FormIntro from '../components/FormIntro.jsx'
 import ProgressBar from '../components/ProgressBar.jsx'
@@ -25,11 +25,56 @@ import { useFormProgress } from '../hooks/useFormProgress'
 import { generateAndDownloadPDF } from '../utils/pdfGenerator'
 
 function App() {
-  // ДОБАВЛЕН resetFormData ИЗ ХУКА
   const { step, setStep, formData, updateData, resetFormData } = useFormData()
   const { globalProgress, milestones } = useFormProgress(formData)
   
   const [uploadedFiles, setUploadedFiles] = useState({});
+  
+  const [isLoading, setIsLoading] = useState(true);
+  const [loadProgress, setLoadProgress] = useState(0);
+
+  useEffect(() => {
+    let isSiteLoaded = document.readyState === 'complete';
+    let isMinTimePassed = false;
+
+    const handleWindowLoad = () => {
+      isSiteLoaded = true;
+      checkCompletion();
+    };
+
+    if (!isSiteLoaded) {
+      window.addEventListener('load', handleWindowLoad);
+    }
+
+    const progressInterval = setInterval(() => {
+      setLoadProgress(prev => {
+        if (prev < 90) return prev + 1.5;
+        return prev;
+      });
+    }, 50);
+
+    const minTimer = setTimeout(() => {
+      isMinTimePassed = true;
+      checkCompletion();
+    }, 3000);
+
+    const checkCompletion = () => {
+      if (isSiteLoaded && isMinTimePassed) {
+        setLoadProgress(100); 
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 500); 
+      }
+    };
+
+    checkCompletion();
+
+    return () => {
+      window.removeEventListener('load', handleWindowLoad);
+      clearInterval(progressInterval);
+      clearTimeout(minTimer);
+    };
+  }, []);
 
   const handleDownload = (signatureData) => {
     const currentTheme = localStorage.getItem('theme'); 
@@ -38,16 +83,13 @@ function App() {
     
     generateAndDownloadPDF(formData, uploadedFiles, signatureData);
 
-    // Очищаем хранилища браузера
     localStorage.clear();
     sessionStorage.clear();
     
-    // ВАЖНО: Очищаем React State (данные формы)
     if (resetFormData) {
         resetFormData();
     }
 
-    // Восстанавливаем тему
     if (currentTheme) {
         localStorage.setItem('theme', currentTheme);
         document.documentElement.setAttribute('data-theme', currentTheme);
@@ -59,7 +101,6 @@ function App() {
   }
 
   const handleRestart = () => {
-     // Дополнительная перестраховка при рестарте
      if (resetFormData) resetFormData();
      localStorage.clear();
      sessionStorage.clear();
@@ -68,7 +109,33 @@ function App() {
 
   return (
     <div className='app'>
-      {/* ... (ВЕСЬ ОСТАЛЬНОЙ КОД APP.JSX ОСТАЕТСЯ БЕЗ ИЗМЕНЕНИЙ) ... */}
+      
+      <AnimatePresence>
+        {isLoading && (
+          <motion.div
+            className="fullscreen-loader"
+            initial={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.6, ease: "easeInOut" }}
+          >
+            <div className="loader-content">
+              <h1 className="loader-title">Prozesskostenhilfe</h1>
+              
+              <div className="progress-bar-container">
+                <div 
+                  className="progress-bar-fill" 
+                  style={{ width: `${loadProgress}%` }}
+                ></div>
+              </div>
+
+              <p className="pulse-text">
+                {loadProgress < 100 ? 'System wird initialisiert...' : 'Bereit!'}
+              </p>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <header className='main-header'>
         <h1 className='logo'>Prozesskostenhilfe</h1>
         <ThemeToggle />
