@@ -333,7 +333,7 @@ textarea,
   letter-spacing: -0.5px;
 }
 
-.progress-bar-container {
+.progress-bar-containers {
   width: 280px;
   height: 6px;
   background-color: rgba(59, 130, 246, 0.15); 

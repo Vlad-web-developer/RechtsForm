@@ -121,7 +121,7 @@ function App() {
             <div className="loader-content">
               <h1 className="loader-title">Prozesskostenhilfe</h1>
               
-              <div className="progress-bar-container">
+              <div className="progress-bar-containers">
                 <div 
                   className="progress-bar-fill" 
                   style={{ width: `${loadProgress}%` }}
