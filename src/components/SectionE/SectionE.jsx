@@ -249,7 +249,7 @@ const SectionE = ({ data, onChange, onBack, onNext, setStep }) => {
                                     onChange('receivesSocialAssistanceSGBXII', 'yes')
                                 }
                             >
-                                Ja, ich habe SGB XII
+                                Ja, ich beziehe SGB XII
                             </button>
                             <button
                                 style={{ flex: 1 }}

@@ -25,7 +25,8 @@ import { useFormProgress } from '../hooks/useFormProgress'
 import { generateAndDownloadPDF } from '../utils/pdfGenerator'
 
 function App() {
-  const { step, setStep, formData, updateData } = useFormData()
+  // ДОБАВЛЕН resetFormData ИЗ ХУКА
+  const { step, setStep, formData, updateData, resetFormData } = useFormData()
   const { globalProgress, milestones } = useFormProgress(formData)
   
   const [uploadedFiles, setUploadedFiles] = useState({});
@@ -37,8 +38,16 @@ function App() {
     
     generateAndDownloadPDF(formData, uploadedFiles, signatureData);
 
+    // Очищаем хранилища браузера
     localStorage.clear();
+    sessionStorage.clear();
+    
+    // ВАЖНО: Очищаем React State (данные формы)
+    if (resetFormData) {
+        resetFormData();
+    }
 
+    // Восстанавливаем тему
     if (currentTheme) {
         localStorage.setItem('theme', currentTheme);
         document.documentElement.setAttribute('data-theme', currentTheme);
@@ -50,11 +59,16 @@ function App() {
   }
 
   const handleRestart = () => {
+     // Дополнительная перестраховка при рестарте
+     if (resetFormData) resetFormData();
+     localStorage.clear();
+     sessionStorage.clear();
      setStep(0);
   };
 
   return (
     <div className='app'>
+      {/* ... (ВЕСЬ ОСТАЛЬНОЙ КОД APP.JSX ОСТАЕТСЯ БЕЗ ИЗМЕНЕНИЙ) ... */}
       <header className='main-header'>
         <h1 className='logo'>Prozesskostenhilfe</h1>
         <ThemeToggle />
@@ -114,7 +128,7 @@ function App() {
                   data={formData.sectionK} 
                   onChange={(f, v) => updateData('sectionK', f, v)} 
                   onBack={() => setStep(11)} 
-                  onFinish={handleDownload} // SectionK вызовет это и передаст Base64 подписи
+                  onFinish={handleDownload} 
                 />
               )}
 
@@ -123,7 +137,8 @@ function App() {
                   <h2 className='section-title'>Fertig!</h2>
                   <p>Ihr Antrag wurde erfolgreich generiert und heruntergeladen.</p>
                   <p style={{fontSize: '0.9rem', color: 'var(--text-secondary)'}}>
-                    Ваши персональные данные были полностью удалены из памяти браузера в целях безопасности.
+                    Ihre persönlichen Daten wurden aus Sicherheitsgründen vollständig aus dem Speicher Ihres Browsers gelöscht.
+Bitte überprüfen Sie Ihre Downloads.
                   </p>
                   <div className='button-group' style={{marginTop: '25px'}}>
                     <button className='btn-primary-action' onClick={handleRestart}>

@@ -229,6 +229,6 @@ export const specialLoadsMap = [
 ];
 
 export const declarationMap = {
-  locationDate: "Ort",
+  locationDate: "Ort, Datum",
   signature: "Unterschrift der Partei oder Person, die sie gesetzlich vertritt" 
 };

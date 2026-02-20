@@ -1,10 +1,10 @@
 import { PenLine, Trash2, Upload, Image as ImageIcon } from 'lucide-react'
-import { useRef, useState, useEffect } from 'react' // Добавлен useEffect
+import { useRef, useState, useEffect } from 'react'
 import SignatureCanvas from 'react-signature-canvas'
 import '../css/SectionJ.css'
 import '../css/SectionK.css'
 
-const SectionK = ({ onBack, onFinish }) => {
+const SectionK = ({ data = {}, onChange = () => {}, onBack, onFinish }) => {
     const [isConfirmed, setIsConfirmed] = useState(false)
     const [signatureMode, setSignatureMode] = useState('draw') 
     const [isSigned, setIsSigned] = useState(false) 
@@ -13,8 +13,37 @@ const SectionK = ({ onBack, onFinish }) => {
     const sigCanvas = useRef(null)
     const fileInputRef = useRef(null)
 
-    // --- ИСПРАВЛЕНИЕ ДЛЯ ТЕЛЕФОНОВ ---
-    // Пересчет координат холста под реальный размер экрана
+    // --- УСТАНОВКА СЕГОДНЯШНЕЙ ДАТЫ ПО УМОЛЧАНИЮ ---
+    useEffect(() => {
+        if (!data.date) {
+            const today = new Date();
+            // Форматируем дату в немецкий стандарт: DD.MM.YYYY
+            const formattedDate = today.toLocaleDateString('de-DE', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric'
+            });
+            onChange('date', formattedDate);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    // --- МАСКА ДЛЯ ДАТЫ (TT.MM.JJJJ) ---
+    const handleDateChange = (e) => {
+        let value = e.target.value.replace(/\D/g, ''); // Удаляем все, кроме цифр
+        if (value.length > 8) value = value.slice(0, 8); // Максимум 8 цифр
+
+        // Автоматически добавляем точки
+        if (value.length >= 5) {
+            value = `${value.slice(0, 2)}.${value.slice(2, 4)}.${value.slice(4)}`;
+        } else if (value.length >= 3) {
+            value = `${value.slice(0, 2)}.${value.slice(2)}`;
+        }
+        
+        onChange('date', value);
+    };
+
+    // Пересчет координат холста под реальный размер экрана (для мобильных)
     useEffect(() => {
         let lastWidth = 0;
 
@@ -23,28 +52,23 @@ const SectionK = ({ onBack, onFinish }) => {
                 const canvas = sigCanvas.current.getCanvas();
                 const currentWidth = canvas.offsetWidth;
                 
-                // Игнорируем вызов, если ширина не менялась 
-                // (защита от сброса при открытии клавиатуры на телефоне)
                 if (currentWidth === lastWidth || currentWidth === 0) return;
                 lastWidth = currentWidth;
 
                 const ratio = Math.max(window.devicePixelRatio || 1, 1);
                 
-                // Устанавливаем реальные пиксельные размеры
                 canvas.width = currentWidth * ratio;
                 canvas.height = canvas.offsetHeight * ratio;
                 canvas.getContext("2d").scale(ratio, ratio);
                 
-                // Очищаем, так как при ресайзе HTML5-холст может растянуть пиксели
                 sigCanvas.current.clear();
                 setIsSigned(false);
             }
         };
 
-        // Небольшая задержка, чтобы блок успел принять ширину 100%
         const timeout = setTimeout(resizeCanvas, 50);
-
         window.addEventListener('resize', resizeCanvas);
+        
         return () => {
             clearTimeout(timeout);
             window.removeEventListener('resize', resizeCanvas);
@@ -86,7 +110,9 @@ const SectionK = ({ onBack, onFinish }) => {
         }
     }
 
-    const canFinish = isConfirmed && (isSigned || uploadedSignature)
+    const hasLocation = data.location && data.location.trim().length > 0;
+    const hasValidDate = data.date && data.date.length >= 8;
+    const canFinish = isConfirmed && (isSigned || uploadedSignature) && hasLocation && hasValidDate;
 
     return (
         <div className='section-card'>
@@ -118,9 +144,39 @@ const SectionK = ({ onBack, onFinish }) => {
                 </p>
             </div>
 
+            {/* --- БЛОК: ORT UND DATUM --- */}
+            <div style={{ 
+                display: 'flex', 
+                gap: '20px', 
+                marginTop: '30px', 
+                flexWrap: 'wrap'
+            }}>
+                <div className='input-group' style={{ flex: '1 1 200px' }}>
+                    <label>Ort <span style={{color: 'red'}}>*</span></label>
+                    <input
+                        type='text'
+                        value={data.location || ''}
+                        onChange={(e) => onChange('location', e.target.value)}
+                        placeholder='z.B. Berlin'
+                        style={{ width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid var(--line-color)' }}
+                    />
+                </div>
+                <div className='input-group' style={{ flex: '1 1 200px' }}>
+                    <label>Datum <span style={{color: 'red'}}>*</span></label>
+                    <input
+                        type='text'
+                        value={data.date || ''}
+                        onChange={handleDateChange} // Используем функцию маски
+                        placeholder='TT.MM.JJJJ'
+                        maxLength="10"
+                        style={{ width: '100%', padding: '12px', borderRadius: '8px', border: '1px solid var(--line-color)' }}
+                    />
+                </div>
+            </div>
+
             <div className='signature-section' style={{ marginTop: '30px' }}>
                 <label className='input-label-small' style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '15px' }}>
-                    <PenLine size={16} /> Unterschrift
+                    <PenLine size={16} /> Unterschrift <span style={{color: 'red'}}>*</span>
                 </label>
 
                 <div style={{ display: 'flex', gap: '10px', marginBottom: '15px' }}>
@@ -149,7 +205,7 @@ const SectionK = ({ onBack, onFinish }) => {
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    touchAction: 'none' // ВАЖНО: отключает скролл экрана при рисовании
+                    touchAction: 'none'
                 }}>
                     
                     {signatureMode === 'draw' ? (
@@ -158,7 +214,6 @@ const SectionK = ({ onBack, onFinish }) => {
                             penColor='black'
                             canvasProps={{
                                 className: 'sigCanvas',
-                                // Убраны width и height, теперь они берутся из CSS и адаптивны
                                 style: { width: '100%', height: '180px', touchAction: 'none' },
                             }}
                             onBegin={() => setIsSigned(true)}
@@ -166,7 +221,7 @@ const SectionK = ({ onBack, onFinish }) => {
                     ) : (
                         <div style={{ width: '100%', padding: '20px', textAlign: 'center' }}>
                             {uploadedSignature ? (
-                                <img src={uploadedSignature} alt="Signature" style={{ maxHeight: '140px', maxWidth: '100%' }} />
+                                <img src={uploadedSignature} alt="Signature" style={{ maxHeight: '140px', maxWidth: '100%', objectFit: 'contain' }} />
                             ) : (
                                 <div onClick={() => fileInputRef.current.click()} style={{ cursor: 'pointer', color: 'var(--text-secondary)' }}>
                                     <ImageIcon size={48} style={{ margin: '0 auto 10px', opacity: 0.5 }} />
@@ -256,6 +311,7 @@ const SectionK = ({ onBack, onFinish }) => {
                     }}
                     onClick={handleFinish}
                     disabled={!canFinish}
+                    title={!canFinish ? "Bitte füllen Sie Ort und Datum aus, unterschreiben Sie und bestätigen Sie die Angaben." : ""}
                 >
                     Fertigstellen & PDF laden
                 </button>
